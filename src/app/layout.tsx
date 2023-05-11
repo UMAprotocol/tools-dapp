@@ -1,4 +1,4 @@
-import { WalletConfig } from "@/components";
+import { ConnectWallet, WalletConfig } from "@/components";
 import "@rainbow-me/rainbowkit/styles.css";
 import "./globals.css";
 
@@ -15,7 +15,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <WalletConfig>{children}</WalletConfig>
+        <WalletConfig>
+          <>
+            <ConnectWallet />
+            {children}
+          </>
+        </WalletConfig>
       </body>
     </html>
   );
