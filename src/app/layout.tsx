@@ -1,3 +1,5 @@
+import { WalletConfig } from "@/components";
+import "@rainbow-me/rainbowkit/styles.css";
 import "./globals.css";
 
 export const metadata = {
@@ -12,7 +14,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <WalletConfig>{children}</WalletConfig>
+      </body>
     </html>
   );
 }
