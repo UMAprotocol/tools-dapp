@@ -38,6 +38,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-storybook": "^0.6.12",
     "msw-storybook-addon": "^1.8.0",
+    "next-plugin-svgr": "^1.1.4",
     "prettier": "^2.8.8",
     "storybook": "^7.0.11",
     "storybook-mock-date-decorator": "^1.0.0",
