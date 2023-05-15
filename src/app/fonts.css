@@ -1,0 +1,84 @@
+:root {
+  font-family: var(--halyard);
+  --regular: 400;
+  --sub-header-size: 1rem;
+  --sub-header-sm-size: 0.75rem;
+  --header-lg-size: 6rem;
+  --header-md-size: 4rem;
+  --header-sm-size: 2.5rem;
+  --header-xs-size: 2rem;
+  --body-xl-size: 1.625rem;
+  --body-lg-size: 1.25rem;
+  --body-md-size: 1.125rem;
+  --body-sm-size: 1rem;
+  --body-xs-size: 0.75rem;
+  --sub-header-line-height: 19px;
+  --sub-header-sm-line-height: 16px;
+  --header-lg-line-height: 112px;
+  --header-md-line-height: 72px;
+  --header-sm-line-height: 54px;
+  --header-xs-line-height: 44px;
+  --body-xl-line-height: 32px;
+  --body-lg-line-height: 28px;
+  --body-md-line-height: 24px;
+  --body-sm-line-height: 22px;
+  --body-xs-line-height: 17px;
+  --header-lg-fluid-size: clamp(
+    var(--header-md-size),
+    3.3rem + 3.2vw,
+    var(--header-lg-size)
+  );
+  --header-md-fluid-size: clamp(
+    var(--header-sm-size),
+    2rem + 2.5vw,
+    var(--header-md-size)
+  );
+  --header-sm-fluid-size: clamp(
+    var(--header-xs-size),
+    3rem + 1.8vw,
+    var(--header-sm-size)
+  );
+  --header-lg-fluid-line-height: clamp(
+    var(--header-md-line-height),
+    3.7rem + 4vw,
+    var(--header-lg-line-height)
+  );
+  --header-md-fluid-line-height: clamp(
+    var(--header-sm-line-height),
+    3rem + 1.8vw,
+    var(--header-md-line-height)
+  );
+  --header-sm-fluid-line-height: clamp(
+    var(--header-xs-line-height),
+    3rem + 1.8vw,
+    var(--header-sm-line-height)
+  );
+  --sub-header: var(--regular) var(--sub-header-size) /
+    var(--sub-header-line-height) var(--halyard);
+  --sub-header-sm: var(--regular) var(--sub-header-sm-size) /
+    var(--sub-header-sm-line-height) var(--halyard);
+  --header-lg: var(--regular) var(--header-lg-size) /
+    var(--header-lg-line-height) var(--halyard);
+  --header-md: var(--regular) var(--header-md-size) /
+    var(--header-md-line-height) var(--halyard);
+  --header-sm: var(--regular) var(--header-sm-size) /
+    var(--header-sm-line-height) var(--halyard);
+  --header-xs: var(--regular) var(--header-xs-size) /
+    var(--header-xs-line-height) var(--halyard);
+  --body-xl: var(--regular) var(--body-xl-size) / var(--body-xl-line-height)
+    var(--halyard);
+  --body-lg: var(--regular) var(--body-lg-size) / var(--body-lg-line-height)
+    var(--halyard);
+  --body-md: var(--regular) var(--body-md-size) / var(--body-md-line-height)
+    var(--halyard);
+  --body-sm: var(--regular) var(--body-sm-size) / var(--body-sm-line-height)
+    var(--halyard);
+  --body-xs: var(--regular) var(--body-xs-size) / var(--body-xs-line-height)
+    var(--halyard);
+  --header-lg-fluid: var(--regular) var(--header-lg-fluid-size) /
+    var(--header-lg-fluid-line-height) var(--halyard);
+  --header-md-fluid: var(--regular) var(--header-md-fluid-size) /
+    var(--header-md-fluid-line-height) var(--halyard);
+  --header-sm-fluid: var(--regular) var(--header-sm-fluid-size) /
+    var(--header-sm-fluid-line-height) var(--halyard);
+}

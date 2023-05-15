@@ -1,6 +1,8 @@
 import { ConnectWallet, WalletConfig } from "@/components";
 import { halyard } from "@/constants";
 import "@rainbow-me/rainbowkit/styles.css";
+import "./fonts.css";
+import "./colors.css";
 import "./globals.css";
 
 export const metadata = {
