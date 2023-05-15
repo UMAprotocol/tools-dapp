@@ -14,7 +14,13 @@ const config: StorybookConfig = {
   docs: {
     autodocs: "tag",
   },
-  staticDirs: ["../public"],
+  staticDirs: [
+    "../src/app/public",
+    {
+      from: "../src/fonts",
+      to: "src/fonts",
+    },
+  ],
   webpackFinal: async (config) => {
     // this modifies the existing image rule to exclude .svg files
     // since we want to handle those files with @svgr/webpack
