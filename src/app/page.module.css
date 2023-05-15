@@ -1,0 +1,12 @@
+.header {
+  font: var(--header-sm);
+  font-size: var(--header-lg-fluid-size);
+}
+
+.header2 {
+  font: var(--header-md-fluid);
+}
+
+.header3 {
+  font: var(--header-sm-fluid);
+}
