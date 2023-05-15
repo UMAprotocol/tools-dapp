@@ -1,4 +1,5 @@
 import { ConnectWallet, WalletConfig } from "@/components";
+import { halyard } from "@/constants";
 import "@rainbow-me/rainbowkit/styles.css";
 import "./globals.css";
 
@@ -13,11 +14,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className={halyard.variable}>
       <body>
         <WalletConfig>
           <>
             <ConnectWallet />
+            <p>test</p>
             {children}
           </>
         </WalletConfig>
