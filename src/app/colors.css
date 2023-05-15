@@ -1,5 +1,4 @@
 :root {
-  color: var(--dark-text);
   --red-100: hsla(0, 100%, 96%, 1); /* #FFEBEB */
   --red-500: hsla(0, 100%, 65%, 1); /* #ff4d4d */
   --red-600: hsla(0, 79%, 59%, 1); /* #E94444 */
@@ -15,5 +14,5 @@
   --blue-grey-600: hsla(285, 4%, 19%, 1); /* #322f33 */
   --blue-grey-700: hsla(280, 4%, 15%, 1); /* #272528 */
   --dark-text: var(--blue-grey-700);
-  --light-text: = var(--white);
+  --light-text: var(--white);
 }
