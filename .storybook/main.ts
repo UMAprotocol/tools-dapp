@@ -16,10 +16,6 @@ const config: StorybookConfig = {
   },
   staticDirs: [
     "../src/app/public",
-    {
-      from: "../src/fonts",
-      to: "src/fonts",
-    },
   ],
   webpackFinal: async (config) => {
     // this modifies the existing image rule to exclude .svg files

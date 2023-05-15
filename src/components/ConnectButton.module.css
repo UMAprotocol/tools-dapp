@@ -1,0 +1,43 @@
+.wrapper {
+  pointer-events: var(--pointer-events);
+  user-select: var(--user-select);
+}
+
+.walletIcon {
+  border-radius: 50%;
+}
+
+.buttonInnerWrapper {
+  color: inherit;
+  display: flex;
+  gap: 20px;
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: var(--justify-content, center);
+  background: var(--background, var(--red-500));
+  gap: 20px;
+  height: 45px;
+  min-width: 190px;
+  width: 100%;
+  padding-inline: 20px;
+  border-radius: 4px;
+  font: var(--body-sm);
+  color: var(--light-text);
+  transition: filter var(--animation-duration);
+}
+
+.button:hover {
+  filter: brightness(1.2);
+}
+
+.warningIcon {
+  width: 16px;
+}
+
+.warningIcon path {
+  fill: var(--white);
+  stroke: var(--red-500);
+}
