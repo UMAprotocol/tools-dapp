@@ -1,5 +1,4 @@
-import { Banner } from "@/components/Banner";
-import { RedLink } from "@/components/RedLink";
+import { Banner, RedLink } from "@/components";
 export default function Dashboard() {
   return (
     <main>

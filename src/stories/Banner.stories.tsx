@@ -1,4 +1,4 @@
-import { Banner } from "@/components/Banner";
+import { Banner } from "@/components";
 import type { Meta } from "@storybook/react";
 
 const meta: Meta = {
