@@ -1,10 +1,11 @@
-import { WalletConfig } from "@/components";
-import { Header } from "@/components";
+import { Header, WalletConfig } from "@/components";
+import { SideBar } from "@/components/SideBar/SideBar";
 import { halyard } from "@/constants";
 import "@rainbow-me/rainbowkit/styles.css";
 import "./style/animation.css";
 import "./style/colors.css";
 import "./style/fonts.css";
+import "./style/containers.css";
 import "./style/globals.css";
 
 export const metadata = {
@@ -23,6 +24,7 @@ export default function RootLayout({
         <WalletConfig>
           <>
             <Header />
+            <SideBar />
             <p>test</p>
             {children}
           </>
