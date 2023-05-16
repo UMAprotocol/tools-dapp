@@ -4,6 +4,7 @@ import { mockDateDecorator } from "storybook-mock-date-decorator";
 import "../src/app/style/animation.css";
 import "../src/app/style/colors.css";
 import "../src/app/style/fonts.css";
+import "../src/app/style/containers.css";
 import "../src/app/style/globals.css";
 import { date } from "../src/stories/mocks";
 import "./fonts.css";
