@@ -1,0 +1,21 @@
+.wrapper {
+  background: var(--grey-900);
+  padding-top: 44px;
+  padding-left: 44px;
+  padding-bottom: 144px;
+}
+
+.title {
+  display: flex;
+  gap: 22px;
+  align-items: center;
+  margin-bottom: 12px;
+  color: var(--light-text);
+  font: var(--header-md-fluid);
+}
+
+.subtitle {
+  color: var(--light-text);
+  font: var(--body-md);
+  max-width: 800px;
+}
