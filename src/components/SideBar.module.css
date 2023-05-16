@@ -1,0 +1,41 @@
+.nav {
+  background: var(--grey-500);
+  width: 180px;
+  height: 100%;
+  padding-top: 32px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.homeLink {
+  display: flex;
+  gap: 16px;
+  align-items: baseline;
+  margin-bottom: 44px;
+  color: var(--dark-text);
+  font-size: 14px;
+  font-weight: 300;
+  text-decoration: none;
+}
+
+.linksList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.link {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  text-decoration: none;
+  color: var(--dark-text);
+  height: 32px;
+  width: 160px;
+  border-radius: 16px;
+  background: var(--background);
+  padding-left: 12px;
+}

@@ -1,9 +1,13 @@
+import { cssVariables } from "@/helpers";
 import Assertion from "@/icons/assertion.svg";
 import Dashboard from "@/icons/dashboard.svg";
 import Uma from "@/icons/uma.svg";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import styles from "./SideBar.module.css";
 
 export function SideBar() {
+  const pathname = usePathname();
   const links = [
     {
       href: "/",
@@ -18,19 +22,31 @@ export function SideBar() {
   ];
 
   return (
-    <nav>
-      <Link href="/">
-        <Uma />
-        <span>TOOLS</span>
-      </Link>
-      <ul>
-        {links.map(({ href, label, Icon }) => (
-          <li key={href}>
-            <Icon />
-            {label}
-          </li>
-        ))}
-      </ul>
+    <nav className={styles.nav}>
+      <div>
+        <Link href="/" className={styles.homeLink}>
+          <Uma />
+          TOOLS
+        </Link>
+        <ul className={styles.linksList}>
+          {links.map(({ href, label, Icon }) => (
+            <li key={href}>
+              <Link
+                href={href}
+                className={styles.link}
+                style={cssVariables({
+                  "--background": pathname.startsWith(href)
+                    ? "var(--white)"
+                    : "transparent",
+                })}
+              >
+                <Icon />
+                {label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
     </nav>
   );
 }
