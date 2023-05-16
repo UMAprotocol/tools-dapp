@@ -1,7 +1,13 @@
 import type { Decorator, Preview } from "@storybook/react";
-import { mockDateDecorator } from "storybook-mock-date-decorator";
-import { date } from "../src/stories/mocks";
 import { initialize, mswDecorator } from "msw-storybook-addon";
+import { mockDateDecorator } from "storybook-mock-date-decorator";
+import "../src/app/style/animation.css";
+import "../src/app/style/colors.css";
+import "../src/app/style/fonts.css";
+import "../src/app/style/globals.css";
+import { date } from "../src/stories/mocks";
+import "./fonts.css";
+import "./rainbow.css";
 
 initialize({
   onUnhandledRequest: "bypass",
@@ -9,6 +15,9 @@ initialize({
 
 const preview: Preview = {
   parameters: {
+    nextjs: {
+      appDirectory: true,
+    },
     actions: { argTypesRegex: "^on[A-Z].*" },
     viewport: {
       defaultViewport: "desktop",
@@ -69,6 +78,9 @@ const preview: Preview = {
   },
 };
 
-export const decorators: Decorator[] = [mswDecorator, mockDateDecorator];
+export const decorators: Decorator[] = [
+  mswDecorator,
+  mockDateDecorator,
+];
 
 export default preview;

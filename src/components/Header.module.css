@@ -1,0 +1,25 @@
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  min-height: 90px;
+  padding-right: 48px;
+}
+
+.ul {
+  list-style: none;
+  display: flex;
+  gap: 76px;
+  margin-right: 76px;
+}
+
+.link { 
+  text-decoration: none;
+  font: var(--body-sm);
+  color: var(--dark-text);
+  transition: color var(--animation-duration);
+}
+
+.link:hover { 
+  color: var(--red-500);
+}

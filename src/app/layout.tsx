@@ -1,9 +1,11 @@
-import { ConnectWallet, WalletConfig } from "@/components";
+import { WalletConfig } from "@/components";
+import { Header } from "@/components";
 import { halyard } from "@/constants";
 import "@rainbow-me/rainbowkit/styles.css";
-import "./fonts.css";
-import "./colors.css";
-import "./globals.css";
+import "./style/animation.css";
+import "./style/colors.css";
+import "./style/fonts.css";
+import "./style/globals.css";
 
 export const metadata = {
   title: "Tools for UMA",
@@ -20,7 +22,7 @@ export default function RootLayout({
       <body>
         <WalletConfig>
           <>
-            <ConnectWallet />
+            <Header />
             <p>test</p>
             {children}
           </>
