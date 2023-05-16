@@ -1,6 +1,6 @@
 .nav {
   background: var(--grey-500);
-  width: 180px;
+  width: var(--sidebar-width);
   height: 100%;
   padding-top: 32px;
   position: fixed;
