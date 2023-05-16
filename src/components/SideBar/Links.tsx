@@ -30,9 +30,8 @@ export function Links() {
             href={href}
             className={styles.link}
             style={cssVariables({
-              "--background": pathname.startsWith(href)
-                ? "var(--white)"
-                : "transparent",
+              "--background":
+                pathname === href ? "var(--white)" : "transparent",
             })}
           >
             <Icon />
