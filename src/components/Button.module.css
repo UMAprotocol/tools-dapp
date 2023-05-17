@@ -1,0 +1,15 @@
+.button {
+  display: grid;
+  place-items: center;
+  min-width: 190px;
+  min-height: 44px;
+  width: var(--width, 190px);
+  background: var(--red-500);
+  color: var(--light-text);
+  border-radius: 4px;
+  transition: filter var(--animation-duration);
+}
+
+.button:hover {
+  filter: brightness(1.25);
+}
