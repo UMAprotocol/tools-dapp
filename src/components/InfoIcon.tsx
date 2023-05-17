@@ -4,13 +4,17 @@ import type { ReactNode } from "react";
 import { useState } from "react";
 import styles from "./InfoIcon.module.css";
 interface Props {
-  content: ReactNode;
+  children: ReactNode;
 }
-export function InfoIcon({ content }: Props) {
+export function InfoIcon({ children }: Props) {
   const [tooltipOpen, setTooltipOpen] = useState(false);
 
   return (
-    <Tooltip content={content} open={tooltipOpen} onOpenChange={setTooltipOpen}>
+    <Tooltip
+      content={children}
+      open={tooltipOpen}
+      onOpenChange={setTooltipOpen}
+    >
       <button onClick={() => setTooltipOpen(true)} className={styles.button}>
         <Info />
       </button>

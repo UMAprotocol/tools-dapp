@@ -11,7 +11,7 @@ type Story = StoryObj<typeof InfoIcon>;
 
 const Template: Story = {
   args: {
-    content: "This is a tooltip",
+    children: "This is a tooltip",
   },
 };
 
