@@ -8,11 +8,22 @@ interface Props {
   selected: DropdownItem | undefined;
   onSelect: (item: DropdownItem) => void;
   disabled?: boolean;
+  id?: string;
 }
-export function RadioDropdown({ items, selected, onSelect, disabled }: Props) {
+export function RadioDropdown({
+  items,
+  selected,
+  onSelect,
+  disabled,
+  id,
+}: Props) {
   return (
     <DropdownMenu.Root modal={false}>
-      <DropdownMenu.Trigger disabled={disabled} className={styles.trigger}>
+      <DropdownMenu.Trigger
+        id={id}
+        disabled={disabled}
+        className={styles.trigger}
+      >
         {selected?.label ?? (
           <span className={styles.placeholder}>Select option</span>
         )}

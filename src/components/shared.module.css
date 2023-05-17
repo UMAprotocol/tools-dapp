@@ -1,0 +1,11 @@
+.box {
+  border: 1px solid var(--blue-grey-700);
+  border-radius: 4px;
+  padding-block: 8px;
+  padding-inline: 16px;
+  max-width: 528px;
+  min-height: 44px;
+  width: 100%;
+  background: var(--white);
+  text-align: left;
+}

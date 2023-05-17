@@ -1,15 +1,3 @@
-.box {
-  border: 1px solid var(--blue-grey-700);
-  border-radius: 4px;
-  padding-block: 8px;
-  padding-inline: 16px;
-  max-width: 528px;
-  min-height: 44px;
-  width: 100%;
-  background: var(--white);
-  text-align: left;
-}
-
 .chevron {
   transition: transform var(--animation-duration);
 }
@@ -23,7 +11,7 @@
 }
 
 .trigger {
-  composes: box;
+  composes: box from "./shared.module.css";
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -38,7 +26,7 @@
 }
 
 .content {
-  composes: box;
+  composes: box from "./shared.module.css";
   width: var(--radix-dropdown-menu-trigger-width);
   margin-top: 4px;
 }

@@ -1,0 +1,5 @@
+.textarea {
+  composes: box from "./shared.module.css";
+  resize: none;
+  min-height: 112px;
+}
