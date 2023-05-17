@@ -12,6 +12,7 @@
     "chromatic": "chromatic --project-token=chpt_edd87fb40472091"
   },
   "dependencies": {
+    "@radix-ui/react-dropdown-menu": "^2.0.4",
     "@rainbow-me/rainbowkit": "^1.0.0",
     "@types/node": "20.1.2",
     "@types/react": "18.2.6",
