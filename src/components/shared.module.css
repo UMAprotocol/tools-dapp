@@ -9,3 +9,6 @@
   background: var(--white);
   text-align: left;
 }
+.box:is(:disabled) {
+  opacity: 0.25;
+}
