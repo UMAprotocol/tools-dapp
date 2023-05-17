@@ -1,6 +1,13 @@
-import { DecimalInput, InfoIcon, RadioDropdown, TextArea } from "@/components";
+import {
+  Button,
+  DecimalInput,
+  InfoIcon,
+  RadioDropdown,
+  TextArea,
+} from "@/components";
 import type { DropdownItem } from "@/types";
 import { useState } from "react";
+import styles from "./AssertionForm.module.css";
 
 export function AssertionForm() {
   const currencies = [
@@ -15,31 +22,31 @@ export function AssertionForm() {
     { label: "12 hours", value: "43200000" },
     { label: "1 day", value: "86400000" },
   ];
-  const [assertionStatement, setAssertionStatement] = useState("");
+  const [statement, setStatement] = useState("");
   const [currency, setCurrency] = useState<DropdownItem>();
   const [bond, setBond] = useState("");
   const [bondError, setBondError] = useState("");
   const [challengePeriod, setChallengePeriod] = useState<DropdownItem>();
 
   return (
-    <form>
-      <div>
-        <label htmlFor="assertion-statement">
-          Assertion Statement{" "}
+    <form className={styles.form}>
+      <div className={styles.inputWrapper}>
+        <label htmlFor="statement" className={styles.label}>
+          Assertion Statement:{" "}
           <InfoIcon>
             Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nostrum,
             labore.
           </InfoIcon>
         </label>
         <TextArea
-          id="assertion-statement"
-          value={assertionStatement}
-          onChange={(e) => setAssertionStatement(e.target.value)}
+          id="statement"
+          value={statement}
+          onChange={(e) => setStatement(e.target.value)}
           placeholder="I assert that..."
         />
       </div>
-      <div>
-        <label htmlFor="currency">
+      <div className={styles.inputWrapper}>
+        <label htmlFor="currency" className={styles.label}>
           Currency:{" "}
           <InfoIcon>
             Lorem, ipsum dolor sit amet consectetur adipisicing elit. Culpa
@@ -53,8 +60,8 @@ export function AssertionForm() {
           onSelect={setCurrency}
         />
       </div>
-      <div>
-        <label htmlFor="bond">
+      <div className={styles.inputWrapper}>
+        <label htmlFor="bond" className={styles.label}>
           Bond Amount:{" "}
           <InfoIcon>
             Lorem, ipsum dolor sit amet consectetur adipisicing elit. Culpa
@@ -68,10 +75,10 @@ export function AssertionForm() {
           addErrorMessage={setBondError}
           removeErrorMessage={() => setBondError("")}
         />
-        <p>{bondError}</p>
+        <p className={styles.bondError}>{bondError}</p>
       </div>
-      <div>
-        <label htmlFor="challenge-period">
+      <div className={styles.inputWrapper}>
+        <label htmlFor="challenge-period" className={styles.label}>
           Challenge Period:{" "}
           <InfoIcon>
             Lorem, ipsum dolor sit amet consectetur adipisicing elit. Culpa
@@ -85,6 +92,14 @@ export function AssertionForm() {
           onSelect={setChallengePeriod}
         />
       </div>
+      <Button
+        type="submit"
+        style={{
+          marginLeft: "auto",
+        }}
+      >
+        Submit
+      </Button>
     </form>
   );
 }

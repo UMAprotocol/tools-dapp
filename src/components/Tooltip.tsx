@@ -10,8 +10,8 @@ export function Tooltip({ children, content, open, onOpenChange }: Props) {
   return (
     <RadixTooltip.Provider delayDuration={100}>
       <RadixTooltip.Root open={open} onOpenChange={onOpenChange}>
-        <RadixTooltip.Trigger asChild>
-          <span className={styles.trigger}>{children}</span>
+        <RadixTooltip.Trigger asChild className={styles.trigger}>
+          {children}
         </RadixTooltip.Trigger>
         <RadixTooltip.Portal>
           <RadixTooltip.Content
