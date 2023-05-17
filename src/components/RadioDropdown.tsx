@@ -1,10 +1,6 @@
 import Chevron from "@/icons/chevron.svg";
+import type { DropdownItem } from "@/types";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
-
-type DropdownItem = {
-  label: string;
-  value: string;
-};
 
 interface Props {
   items: DropdownItem[];
