@@ -21,12 +21,9 @@ export default function RootLayout({
     <html lang="en" className={halyard.variable}>
       <body>
         <WalletConfig>
-          <>
-            <Header />
-            <SideBar />
-            <p>test</p>
-            {children}
-          </>
+          <Header />
+          <SideBar />
+          {children}
         </WalletConfig>
       </body>
     </html>

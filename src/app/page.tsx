@@ -1,12 +1,20 @@
-import NextLink from "next/link";
-import styles from "./page.module.css";
-export default function Home() {
+import { Banner, RedLink } from "@/components";
+export default function Dashboard() {
   return (
     <main>
-      <h1 className={styles.header}>Dashboard</h1>
-      <h1 className={styles.header2}>Test test</h1>
-      <h1 className={styles.header3}>Test test</h1>
-      <NextLink href="/assertion-tool">Assertion Tool</NextLink>
+      <Banner
+        page="dashboard"
+        title="Dashboard"
+        subtitle={
+          <>
+            This smart contract allows data providers to assert the correctness
+            of a data point, within any arbitrary data set, and bring the result
+            on-chain. This contract is designed to be maximally open ended,
+            enabling any kind of data to be asserted.{" "}
+            <RedLink href="todo">Read more </RedLink>
+          </>
+        }
+      />
     </main>
   );
 }
