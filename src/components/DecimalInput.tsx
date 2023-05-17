@@ -70,6 +70,7 @@ interface Props {
   placeholder?: string;
   maxDecimals?: number;
   allowNegative?: boolean;
+  id?: string;
 }
 /**
  * A component for entering decimal values.
@@ -91,6 +92,7 @@ export function DecimalInput({
   placeholder,
   maxDecimals = 18,
   allowNegative = true,
+  id,
 }: Props) {
   const onChange = useHandleDecimalInput({
     onInput,
@@ -118,6 +120,7 @@ export function DecimalInput({
       maxLength={79}
       spellCheck="false"
       className={styles.input}
+      id={id}
     />
   );
 }
