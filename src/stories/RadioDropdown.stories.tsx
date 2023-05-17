@@ -1,4 +1,4 @@
-import { RadioDropdown } from "@/components/RadioDropdown";
+import { RadioDropdown } from "@/components";
 import type { DropdownItem } from "@/types";
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";

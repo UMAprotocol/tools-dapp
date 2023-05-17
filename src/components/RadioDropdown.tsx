@@ -1,6 +1,7 @@
 import Chevron from "@/icons/chevron.svg";
 import type { DropdownItem } from "@/types";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
+import styles from "./RadioDropdown.module.css";
 
 interface Props {
   items: DropdownItem[];
@@ -11,17 +12,25 @@ interface Props {
 export function RadioDropdown({ items, selected, onSelect, disabled }: Props) {
   return (
     <DropdownMenu.Root modal={false}>
-      <DropdownMenu.Trigger disabled={disabled}>
-        {selected?.label ?? "Select option"}
-        <Chevron />
+      <DropdownMenu.Trigger disabled={disabled} className={styles.trigger}>
+        {selected?.label ?? (
+          <span className={styles.placeholder}>Select option</span>
+        )}
+        <Chevron className={styles.chevron} />
       </DropdownMenu.Trigger>
       <DropdownMenu.Portal>
-        <DropdownMenu.Content>
+        <DropdownMenu.Content
+          align="start"
+          side="bottom"
+          sideOffset={4}
+          className={styles.content}
+        >
           {items.map((item) => (
             <DropdownMenu.RadioItem
               value={item.value}
               onSelect={() => onSelect(item)}
               key={item.value}
+              className={styles.item}
             >
               {item.label}
             </DropdownMenu.RadioItem>

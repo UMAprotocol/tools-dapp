@@ -1,0 +1,52 @@
+.box {
+  border: 1px solid var(--blue-grey-700);
+  border-radius: 4px;
+  padding-block: 8px;
+  padding-inline: 16px;
+  max-width: 528px;
+  min-height: 44px;
+  width: 100%;
+  background: var(--white);
+  text-align: left;
+}
+
+.chevron {
+  transition: transform var(--animation-duration);
+}
+
+.chevron path {
+  stroke: currentColor;
+}
+
+.placeholder {
+  opacity: 0.5;
+}
+
+.trigger {
+  composes: box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.trigger[data-state="open"] .chevron {
+  transform: rotate(180deg);
+}
+
+.trigger[data-disabled] {
+  opacity: 0.25;
+}
+
+.content {
+  composes: box;
+  width: var(--radix-dropdown-menu-trigger-width);
+  margin-top: 4px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 44px;
+  padding-inline: 16px;
+}
