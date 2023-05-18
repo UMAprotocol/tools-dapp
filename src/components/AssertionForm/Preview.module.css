@@ -13,6 +13,7 @@
   padding-top: 20px;
   padding-inline: 20px;
   padding-bottom: 64px;
+  border-radius: 4px;
 }
 
 .subtitle {
@@ -36,11 +37,6 @@
 .statement {
   composes: content;
   min-height: 80px;
-}
-
-.timestampLabel {
-  display: inline-block;
-  margin-right: 24px;
 }
 
 .link {
