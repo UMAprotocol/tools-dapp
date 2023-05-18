@@ -1,3 +1,5 @@
+"use client";
+
 import type { DropdownItem } from "@/types";
 import { useState } from "react";
 import styles from "./AssertionForm.module.css";

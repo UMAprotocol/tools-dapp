@@ -1,3 +1,5 @@
+"use client";
+
 import * as RadixTooltip from "@radix-ui/react-tooltip";
 import styles from "./Tooltip.module.css";
 interface Props {
