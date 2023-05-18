@@ -29,18 +29,6 @@ export function Preview({ statement, currency, bond, challengePeriod }: Props) {
           </ReactMarkdown>
         </div>
         <h2 className={styles.subtitle}>
-          <GreyCircle /> Timestamp:
-        </h2>
-        <div className={styles.content}>
-          <p>
-            {" "}
-            <span className={styles.timestampLabel}>UNIX</span>timestamp
-          </p>
-          <p>
-            <span className={styles.timestampLabel}>UTC</span> timestamp
-          </p>
-        </div>
-        <h2 className={styles.subtitle}>
           <GreyCircle /> Bond Value:
         </h2>
         <div className={styles.content}>
