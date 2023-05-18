@@ -1,0 +1,39 @@
+.title {
+  margin-bottom: 12px;
+  font: var(--body-sm);
+  font-weight: 700;
+}
+
+.wrapper {
+  background: var(--grey-400);
+  padding-top: 20px;
+  padding-inline: 20px;
+  padding-bottom: 64px;
+}
+
+.subtitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  font: var(--body-xs);
+  font-weight: 600;
+}
+
+.content {
+  background: var(--white);
+  border-radius: 4px;
+  padding: 8px;
+  font: var(--body-xs);
+  margin-bottom: 20px;
+}
+
+.statement {
+  composes: content;
+  min-height: 80px;
+}
+
+.timestampLabel {
+  display: inline-block;
+  margin-right: 24px;
+}

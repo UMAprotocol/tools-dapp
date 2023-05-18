@@ -1,4 +1,4 @@
-export { AssertionForm } from "./AssertionForm";
+export { AssertionForm } from "./AssertionForm/AssertionForm";
 export { Banner } from "./Banner";
 export { Button } from "./Button";
 export { ConnectButton } from "./ConnectButton";

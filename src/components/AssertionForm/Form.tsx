@@ -7,9 +7,9 @@ import {
 } from "@/components";
 import type { DropdownItem } from "@/types";
 import { useState } from "react";
-import styles from "./AssertionForm.module.css";
+import styles from "./Form.module.css";
 
-export function AssertionForm() {
+export function Form() {
   const currencies = [
     { label: "USDC", value: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48" },
     { label: "DAI", value: "0x6B175474E89094C44Da98b954EedeAC495271d0F" },
