@@ -30,6 +30,7 @@
   padding: 8px;
   font: var(--body-xs);
   margin-bottom: 20px;
+  min-height: 44px;
 }
 
 .statement {
@@ -40,4 +41,14 @@
 .timestampLabel {
   display: inline-block;
   margin-right: 24px;
+}
+
+.link {
+  color: var(--red-500);
+  font-size: inherit;
+  text-decoration: none;
+}
+
+.link:hover {
+  text-decoration: underline;
 }

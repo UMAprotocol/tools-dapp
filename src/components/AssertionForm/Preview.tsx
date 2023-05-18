@@ -1,4 +1,5 @@
 import GreyCircle from "@/icons/grey-circle.svg";
+import ReactMarkdown from "react-markdown";
 import styles from "./Preview.module.css";
 
 interface Props {
@@ -17,7 +18,15 @@ export function Preview({ statement, currency, bond, challengePeriod }: Props) {
           Assertion Statement:
         </h3>
         <div className={styles.statement}>
-          <p>{statement}</p>
+          <ReactMarkdown
+            components={{
+              a: (props) => (
+                <a {...props} target="_blank" className={styles.link} />
+              ),
+            }}
+          >
+            {statement === "" ? "I assert that..." : statement}
+          </ReactMarkdown>
         </div>
         <h2 className={styles.subtitle}>
           <GreyCircle /> Timestamp:
