@@ -1,8 +1,15 @@
 import GreyCircle from "@/icons/grey-circle.svg";
 import styles from "./Preview.module.css";
-export function Preview() {
+
+interface Props {
+  statement: string;
+  currency: string | undefined;
+  bond: string;
+  challengePeriod: string | undefined;
+}
+export function Preview({ statement, currency, bond, challengePeriod }: Props) {
   return (
-    <>
+    <div className={styles.outerWrapper}>
       <h2 className={styles.title}>Preview</h2>
       <div className={styles.wrapper}>
         <h3 className={styles.subtitle}>
@@ -10,7 +17,7 @@ export function Preview() {
           Assertion Statement:
         </h3>
         <div className={styles.statement}>
-          <p>Statement goes here</p>
+          <p>{statement}</p>
         </div>
         <h2 className={styles.subtitle}>
           <GreyCircle /> Timestamp:
@@ -28,15 +35,17 @@ export function Preview() {
           <GreyCircle /> Bond Value:
         </h2>
         <div className={styles.content}>
-          <p>100 DAI</p>
+          <p>
+            {bond} {currency}
+          </p>
         </div>
         <h2 className={styles.subtitle}>
           <GreyCircle /> Challenge Period:
         </h2>
         <div className={styles.content}>
-          <p>7 days</p>
+          <p>{challengePeriod}</p>
         </div>
       </div>
-    </>
+    </div>
   );
 }

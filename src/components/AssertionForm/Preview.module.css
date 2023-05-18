@@ -4,6 +4,10 @@
   font-weight: 700;
 }
 
+.outerWrapper {
+  max-width: 530px;
+}
+
 .wrapper {
   background: var(--grey-400);
   padding-top: 20px;
