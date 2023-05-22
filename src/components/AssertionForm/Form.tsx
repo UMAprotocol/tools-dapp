@@ -46,10 +46,7 @@ export function Form({
       <div className={styles.inputWrapper}>
         <label htmlFor="claim" className={styles.label}>
           Assertion Claim:{" "}
-          <InfoIcon>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nostrum,
-            labore.
-          </InfoIcon>
+          <InfoIcon>Assert that something in the world is true.</InfoIcon>
         </label>
         <TextArea
           id="claim"
@@ -78,8 +75,7 @@ export function Form({
         <label htmlFor="bond" className={styles.label}>
           Bond Amount:{" "}
           <InfoIcon>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Culpa
-            impedit distinctio amet eligendi sit possimus suscipit totam illum
+            The amount of currency you are willing to stake on this assertion.
           </InfoIcon>
         </label>
         <DecimalInput
@@ -96,8 +92,7 @@ export function Form({
         <label htmlFor="challenge-period" className={styles.label}>
           Challenge Period:{" "}
           <InfoIcon>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Culpa
-            impedit distinctio amet eligendi sit possimus suscipit totam illum
+            The amount of time challengers have to dispute your assertion.
           </InfoIcon>
         </label>
         <RadioDropdown
