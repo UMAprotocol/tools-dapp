@@ -11,6 +11,7 @@ interface Props {
   address: Address | undefined;
   decimals: number;
   currencyAddress: Address | undefined;
+  oracleAddress: Address | undefined;
   chainId: ChainId;
   challengePeriods: DropdownItem[];
   claim: string;
@@ -32,6 +33,7 @@ export function Form({
   address,
   selectedCurrency,
   currencyAddress,
+  oracleAddress,
   setCurrency,
   decimals,
   bond,
@@ -102,16 +104,21 @@ export function Form({
           onSelect={setChallengePeriod}
         />
       </div>
-      {!!decimals && !!address && !!currencyAddress && (
-        <ActionButton
-          userAddress={address}
-          claim={claim}
-          bond={BigInt(parseUnits(bond.toString() as `${number}`, decimals))}
-          decimals={decimals}
-          currencyAddress={currencyAddress}
-          chainId={chainId}
-        />
-      )}
+      {!!decimals &&
+        !!address &&
+        !!currencyAddress &&
+        !!oracleAddress &&
+        !bondError && (
+          <ActionButton
+            userAddress={address}
+            oracleAddress={oracleAddress}
+            claim={claim}
+            bond={BigInt(parseUnits(bond.toString() as `${number}`, decimals))}
+            decimals={decimals}
+            currencyAddress={currencyAddress}
+            chainId={chainId}
+          />
+        )}
     </form>
   );
 }

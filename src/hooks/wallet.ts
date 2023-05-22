@@ -1,5 +1,6 @@
 "use client";
 
+import { oov3Abi } from "@/abis";
 import { walletsAndConnectors } from "@/constants";
 import type { ChainId } from "@/types";
 import { useEffect, useState } from "react";
@@ -77,4 +78,22 @@ export function useBalanceAndAllowance({
     balance,
     allowance,
   };
+}
+
+export function useMinimumBond({
+  currencyAddress,
+  oracleAddress,
+}: {
+  currencyAddress: Address | undefined;
+  oracleAddress: Address | undefined;
+}) {
+  const { data: minimumBond } = useContractRead({
+    address: oracleAddress,
+    abi: oov3Abi,
+    functionName: "getMinimumBond",
+    args: [currencyAddress as Address],
+    enabled: !!currencyAddress && !!oracleAddress,
+  });
+
+  return minimumBond;
 }

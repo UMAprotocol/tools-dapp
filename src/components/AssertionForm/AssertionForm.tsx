@@ -1,8 +1,13 @@
 "use client";
 
-import { challengePeriods, currenciesByChain } from "@/constants";
+import {
+  challengePeriods,
+  currenciesByChain,
+  oov3AddressesByChainId,
+} from "@/constants";
+import { useMinimumBond } from "@/hooks";
 import type { ChainId, DropdownItem } from "@/types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useIsClient } from "usehooks-ts";
 import { useAccount, useNetwork, useToken } from "wagmi";
 import styles from "./AssertionForm.module.css";
@@ -44,6 +49,25 @@ export function AssertionForm() {
   const currencyDetails =
     currencies[selectedCurrency?.value as keyof typeof currencies];
 
+  const currencyAddress = currencyDetails?.address;
+
+  const oracleAddress = oov3AddressesByChainId[chainId];
+
+  const minimumBond = useMinimumBond({ currencyAddress, oracleAddress });
+
+  console.log({ minimumBond, bond });
+
+  useEffect(() => {
+    if (!currencyDetails?.symbol || !minimumBond) return;
+    if (BigInt(bond) < minimumBond) {
+      setBondError(
+        `Bond must be at least ${minimumBond} ${currencyDetails.symbol}`
+      );
+    } else {
+      setBondError("");
+    }
+  }, [minimumBond, bond, currencyDetails?.symbol]);
+
   const formProps = {
     currencyOptions,
     selectedCurrency,
@@ -52,7 +76,8 @@ export function AssertionForm() {
     chainId,
     currency,
     address,
-    currencyAddress: currencyDetails?.address,
+    currencyAddress,
+    oracleAddress,
     decimals: currencyDetails?.decimals ?? 18,
     bond,
     challengePeriod,

@@ -1,6 +1,5 @@
 import { oov3Abi } from "@/abis";
 import { Button, Tooltip } from "@/components";
-import { oov3AddressesByChainId } from "@/constants";
 import { useBalanceAndAllowance } from "@/hooks";
 import type { ChainId } from "@/types";
 import { stringToHex, zeroAddress } from "viem";
@@ -10,6 +9,7 @@ import styles from "./ActionButton.module.css";
 
 interface Props {
   userAddress: Address;
+  oracleAddress: Address;
   chainId: ChainId;
   claim: string;
   bond: bigint;
@@ -17,8 +17,7 @@ interface Props {
   decimals: number;
 }
 export function ActionButton(props: Props) {
-  const { userAddress, chainId, bond, currencyAddress } = props;
-  const oracleAddress = oov3AddressesByChainId[chainId];
+  const { userAddress, chainId, bond, currencyAddress, oracleAddress } = props;
   const { balance, allowance } = useBalanceAndAllowance({
     userAddress,
     currencyAddress,
@@ -34,9 +33,9 @@ export function ActionButton(props: Props) {
       {insufficientFunds ? (
         <p>too poor sorry</p>
       ) : hasApproved ? (
-        <SubmitButton {...props} oracleAddress={oracleAddress} />
+        <SubmitButton {...props} />
       ) : (
-        <ApproveButton {...props} oracleAddress={oracleAddress} />
+        <ApproveButton {...props} />
       )}
     </div>
   );
@@ -48,7 +47,7 @@ function SubmitButton({
   currencyAddress,
   oracleAddress,
   bond,
-}: Props & { oracleAddress: Address }) {
+}: Props) {
   const hasClaim = claim.length > 0;
 
   const { config } = usePrepareContractWrite({
@@ -94,7 +93,7 @@ function ApproveButton({
   chainId,
   oracleAddress,
   bond,
-}: Props & { oracleAddress: Address }) {
+}: Props) {
   const { config } = usePrepareContractWrite({
     address: currencyAddress,
     abi: erc20ABI,
