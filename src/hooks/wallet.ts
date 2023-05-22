@@ -1,8 +1,10 @@
 "use client";
 
 import { walletsAndConnectors } from "@/constants";
+import type { ChainId } from "@/types";
 import { useEffect, useState } from "react";
-import { useAccount } from "wagmi";
+import type { Address } from "wagmi";
+import { erc20ABI, useAccount, useBalance, useContractRead } from "wagmi";
 
 /**
  * Hook to get the icon of the currently connected wallet.
@@ -43,4 +45,36 @@ export function useWalletIcon() {
   }, [connector, iconsAndIds, walletIcon]);
 
   return walletIcon;
+}
+
+export function useBalanceAndAllowance({
+  userAddress,
+  currencyAddress,
+  oracleAddress,
+  chainId,
+}: {
+  userAddress: Address;
+  currencyAddress: Address;
+  oracleAddress: Address;
+  chainId: ChainId;
+}) {
+  const { data: balance } = useBalance({
+    address: userAddress,
+    token: currencyAddress,
+    chainId,
+  });
+  const { data: allowance } = useContractRead({
+    address: currencyAddress,
+    abi: erc20ABI,
+    functionName: "allowance",
+    chainId,
+    // typecast is safe because hook is only enabled when these
+    // values are defined (see below)
+    args: [userAddress, oracleAddress],
+  });
+
+  return {
+    balance,
+    allowance,
+  };
 }

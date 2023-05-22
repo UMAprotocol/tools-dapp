@@ -1,5 +1,6 @@
 import { DecimalInput, InfoIcon, RadioDropdown, TextArea } from "@/components";
 import type { ChainId, DropdownItem } from "@/types";
+import { parseUnits } from "viem";
 import type { Address } from "wagmi";
 import { ActionButton } from "./ActionButton";
 import styles from "./Form.module.css";
@@ -41,7 +42,7 @@ export function Form({
   setChallengePeriod,
 }: Props) {
   return (
-    <form className={styles.form}>
+    <form className={styles.form} onSubmit={(e) => e.preventDefault()}>
       <div className={styles.inputWrapper}>
         <label htmlFor="claim" className={styles.label}>
           Assertion Claim:{" "}
@@ -106,11 +107,11 @@ export function Form({
           onSelect={setChallengePeriod}
         />
       </div>
-      {claim.length > 0 && !!decimals && !!address && !!currencyAddress && (
+      {!!decimals && !!address && !!currencyAddress && (
         <ActionButton
-          address={address}
+          userAddress={address}
           claim={claim}
-          bond={bond}
+          bond={BigInt(parseUnits(bond.toString() as `${number}`, decimals))}
           decimals={decimals}
           currencyAddress={currencyAddress}
           chainId={chainId}

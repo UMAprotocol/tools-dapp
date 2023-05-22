@@ -1,41 +1,68 @@
 import { oov3Abi } from "@/abis";
 import { Button, Tooltip } from "@/components";
 import { oov3AddressesByChainId } from "@/constants";
+import { useBalanceAndAllowance } from "@/hooks";
 import type { ChainId } from "@/types";
-import { parseUnits, stringToHex, zeroAddress } from "viem";
+import { stringToHex, zeroAddress } from "viem";
 import type { Address } from "wagmi";
-import { useContractWrite, usePrepareContractWrite } from "wagmi";
+import { erc20ABI, useContractWrite, usePrepareContractWrite } from "wagmi";
 import styles from "./ActionButton.module.css";
 
 interface Props {
-  address: Address;
+  userAddress: Address;
   chainId: ChainId;
   claim: string;
-  bond: string;
+  bond: bigint;
   currencyAddress: Address;
   decimals: number;
 }
-export function ActionButton({
-  address,
-  chainId,
+export function ActionButton(props: Props) {
+  const { userAddress, chainId, bond, currencyAddress } = props;
+  const oracleAddress = oov3AddressesByChainId[chainId];
+  const { balance, allowance } = useBalanceAndAllowance({
+    userAddress,
+    currencyAddress,
+    oracleAddress,
+    chainId,
+  });
+
+  const hasApproved = !!allowance && allowance >= bond;
+  const insufficientFunds = !!balance && balance.value <= bond;
+
+  return (
+    <div className={styles.submitButtonWrapper}>
+      {insufficientFunds ? (
+        <p>too poor sorry</p>
+      ) : hasApproved ? (
+        <SubmitButton {...props} oracleAddress={oracleAddress} />
+      ) : (
+        <ApproveButton {...props} oracleAddress={oracleAddress} />
+      )}
+    </div>
+  );
+}
+
+function SubmitButton({
   claim,
-  bond,
+  userAddress,
   currencyAddress,
-  decimals,
-}: Props) {
+  oracleAddress,
+  bond,
+}: Props & { oracleAddress: Address }) {
   const hasClaim = claim.length > 0;
+
   const { config } = usePrepareContractWrite({
-    address: oov3AddressesByChainId[chainId],
+    address: oracleAddress,
     abi: oov3Abi,
     functionName: "assertTruth",
     args: [
       stringToHex(claim || "stuff", { size: 32 }),
-      address,
+      userAddress,
       zeroAddress,
       zeroAddress,
       720000n,
       currencyAddress,
-      BigInt(parseUnits(bond as `${number}`, decimals)),
+      bond,
       stringToHex("ASSERT_TRUTH", { size: 32 }),
       stringToHex("0x0", { size: 32 }),
     ],
@@ -43,18 +70,14 @@ export function ActionButton({
 
   const { write } = useContractWrite(config);
 
-  function onSubmit() {
-    write?.();
-  }
-
   const submitButton = (
-    <Button disabled={!hasClaim || !address} type="submit" onSubmit={onSubmit}>
+    <Button disabled={!hasClaim} type="submit" onClick={write}>
       Submit
     </Button>
   );
 
   return (
-    <div className={styles.submitButtonWrapper} aria-disabled={!hasClaim}>
+    <>
       {hasClaim ? (
         submitButton
       ) : (
@@ -62,6 +85,25 @@ export function ActionButton({
           <span>{submitButton}</span>
         </Tooltip>
       )}
-    </div>
+    </>
   );
+}
+
+function ApproveButton({
+  currencyAddress,
+  chainId,
+  oracleAddress,
+  bond,
+}: Props & { oracleAddress: Address }) {
+  const { config } = usePrepareContractWrite({
+    address: currencyAddress,
+    abi: erc20ABI,
+    functionName: "approve",
+    chainId,
+    args: [oracleAddress, bond],
+  });
+
+  const { write } = useContractWrite(config);
+
+  return <Button onClick={write}>Approve</Button>;
 }
