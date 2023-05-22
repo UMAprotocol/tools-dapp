@@ -12,12 +12,13 @@ interface Props {
   oracleAddress: Address;
   chainId: ChainId;
   claim: string;
-  bond: bigint;
+  bondBigInt: bigint;
   currencyAddress: Address;
   decimals: number;
 }
 export function ActionButton(props: Props) {
-  const { userAddress, chainId, bond, currencyAddress, oracleAddress } = props;
+  const { userAddress, chainId, bondBigInt, currencyAddress, oracleAddress } =
+    props;
   const { balance, allowance } = useBalanceAndAllowance({
     userAddress,
     currencyAddress,
@@ -25,8 +26,8 @@ export function ActionButton(props: Props) {
     chainId,
   });
 
-  const hasApproved = !!allowance && allowance >= bond;
-  const insufficientFunds = !!balance && balance.value <= bond;
+  const hasApproved = !!allowance && allowance >= bondBigInt;
+  const insufficientFunds = !!balance && balance.value <= bondBigInt;
 
   return (
     <div className={styles.submitButtonWrapper}>
@@ -46,7 +47,7 @@ function SubmitButton({
   userAddress,
   currencyAddress,
   oracleAddress,
-  bond,
+  bondBigInt,
 }: Props) {
   const hasClaim = claim.length > 0;
 
@@ -61,7 +62,7 @@ function SubmitButton({
       zeroAddress,
       720000n,
       currencyAddress,
-      bond,
+      bondBigInt,
       stringToHex("ASSERT_TRUTH", { size: 32 }),
       stringToHex("0x0", { size: 32 }),
     ],
@@ -92,14 +93,14 @@ function ApproveButton({
   currencyAddress,
   chainId,
   oracleAddress,
-  bond,
+  bondBigInt,
 }: Props) {
   const { config } = usePrepareContractWrite({
     address: currencyAddress,
     abi: erc20ABI,
     functionName: "approve",
     chainId,
-    args: [oracleAddress, bond],
+    args: [oracleAddress, bondBigInt],
   });
 
   const { write } = useContractWrite(config);

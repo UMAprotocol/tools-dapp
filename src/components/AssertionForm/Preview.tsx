@@ -1,14 +1,14 @@
 import GreyCircle from "@/icons/grey-circle.svg";
 import ReactMarkdown from "react-markdown";
 import styles from "./Preview.module.css";
+import type { AssertionFormProps } from "./useAssertionForm";
 
-interface Props {
-  claim: string;
-  currency: string | undefined;
-  bond: string;
-  challengePeriod: string | undefined;
-}
-export function Preview({ claim, currency, bond, challengePeriod }: Props) {
+export function Preview({
+  claim,
+  currencySymbol,
+  bond,
+  challengePeriod,
+}: AssertionFormProps) {
   return (
     <div className={styles.outerWrapper}>
       <h2 className={styles.title}>Preview</h2>
@@ -33,14 +33,14 @@ export function Preview({ claim, currency, bond, challengePeriod }: Props) {
         </h2>
         <div className={styles.content}>
           <p>
-            {bond} {currency}
+            {bond} {currencySymbol}
           </p>
         </div>
         <h2 className={styles.subtitle}>
           <GreyCircle /> Challenge Period:
         </h2>
         <div className={styles.content}>
-          <p>{challengePeriod}</p>
+          <p>{challengePeriod?.label}</p>
         </div>
       </div>
     </div>

@@ -1,48 +1,27 @@
 import { DecimalInput, InfoIcon, RadioDropdown, TextArea } from "@/components";
-import type { ChainId, DropdownItem } from "@/types";
-import { parseUnits } from "viem";
-import type { Address } from "wagmi";
 import { ActionButton } from "./ActionButton";
 import styles from "./Form.module.css";
+import type { AssertionFormProps } from "./useAssertionForm";
 
-interface Props {
-  currencyOptions: DropdownItem[];
-  selectedCurrency: DropdownItem | undefined;
-  address: Address | undefined;
-  decimals: number;
-  currencyAddress: Address | undefined;
-  oracleAddress: Address | undefined;
-  chainId: ChainId;
-  challengePeriods: DropdownItem[];
-  claim: string;
-  setClaim: (claim: string) => void;
-  setCurrency: (currency: DropdownItem) => void;
-  bond: string;
-  setBond: (bond: string) => void;
-  bondError: string;
-  setBondError: (bondError: string) => void;
-  challengePeriod: DropdownItem | undefined;
-  setChallengePeriod: (challengePeriod: DropdownItem) => void;
-}
-export function Form({
-  currencyOptions,
-  challengePeriods,
-  claim,
-  setClaim,
-  chainId,
-  address,
-  selectedCurrency,
-  currencyAddress,
-  oracleAddress,
-  setCurrency,
-  decimals,
-  bond,
-  setBond,
-  bondError,
-  setBondError,
-  challengePeriod,
-  setChallengePeriod,
-}: Props) {
+export function Form(props: AssertionFormProps) {
+  const {
+    currencyOptions,
+    challengePeriods,
+    claim,
+    setClaim,
+    userAddress,
+    selectedCurrency,
+    currencyAddress,
+    oracleAddress,
+    setCurrency,
+    decimals,
+    bond,
+    setBond,
+    bondError,
+    setBondError,
+    challengePeriod,
+    setChallengePeriod,
+  } = props;
   return (
     <form className={styles.form} onSubmit={(e) => e.preventDefault()}>
       <div className={styles.inputWrapper}>
@@ -105,18 +84,14 @@ export function Form({
         />
       </div>
       {!!decimals &&
-        !!address &&
+        !!userAddress &&
         !!currencyAddress &&
         !!oracleAddress &&
         !bondError && (
           <ActionButton
-            userAddress={address}
-            oracleAddress={oracleAddress}
-            claim={claim}
-            bond={BigInt(parseUnits(bond.toString() as `${number}`, decimals))}
-            decimals={decimals}
+            {...props}
+            userAddress={userAddress}
             currencyAddress={currencyAddress}
-            chainId={chainId}
           />
         )}
     </form>
