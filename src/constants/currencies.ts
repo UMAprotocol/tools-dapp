@@ -1,4 +1,9 @@
-export const currenciesByChain = {
+import type { ChainId, Currency } from "@/types";
+
+export const currenciesByChain: Record<
+  ChainId,
+  Record<Currency, `0x${string}`>
+> = {
   1: {
     WETH: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
     USDC: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
@@ -17,7 +22,7 @@ export const currenciesByChain = {
   137: {
     WETH: "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619",
     USDC: "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174",
-    DAI: "",
+    DAI: "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063",
   },
   42161: {
     WETH: "0x82aF49447D8a07e3bd95BD0d56f35241523fBab1",

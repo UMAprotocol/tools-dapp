@@ -1,0 +1,8 @@
+.submitButtonWrapper {
+  margin-left: auto;
+  width: fit-content;
+}
+
+.submitButtonWrapper[aria-disabled="true"] {
+  cursor: not-allowed;
+}

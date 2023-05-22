@@ -3,21 +3,21 @@ import ReactMarkdown from "react-markdown";
 import styles from "./Preview.module.css";
 
 interface Props {
-  statement: string;
+  claim: string;
   currency: string | undefined;
   bond: string;
   challengePeriod: string | undefined;
 }
-export function Preview({ statement, currency, bond, challengePeriod }: Props) {
+export function Preview({ claim, currency, bond, challengePeriod }: Props) {
   return (
     <div className={styles.outerWrapper}>
       <h2 className={styles.title}>Preview</h2>
       <div className={styles.wrapper}>
         <h3 className={styles.subtitle}>
           <GreyCircle />
-          Assertion Statement:
+          Assertion Claim:
         </h3>
-        <div className={styles.statement}>
+        <div className={styles.claim}>
           <ReactMarkdown
             components={{
               a: (props) => (
@@ -25,7 +25,7 @@ export function Preview({ statement, currency, bond, challengePeriod }: Props) {
               ),
             }}
           >
-            {statement === "" ? "I assert that..." : statement}
+            {claim === "" ? "I assert that..." : claim}
           </ReactMarkdown>
         </div>
         <h2 className={styles.subtitle}>

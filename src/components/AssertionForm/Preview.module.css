@@ -34,7 +34,7 @@
   min-height: 44px;
 }
 
-.statement {
+.claim {
   composes: content;
   min-height: 80px;
 }

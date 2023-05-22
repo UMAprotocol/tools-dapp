@@ -17,12 +17,3 @@
   margin-top: 8px;
   color: var(--red-500);
 }
-
-.submitButtonWrapper {
-  margin-left: auto;
-  width: fit-content;
-}
-
-.submitButtonWrapper[aria-disabled="true"] {
-  cursor: not-allowed;
-}
