@@ -4,6 +4,7 @@ import {
   InfoIcon,
   RadioDropdown,
   TextArea,
+  Tooltip,
 } from "@/components";
 import type { DropdownItem } from "@/types";
 import styles from "./Form.module.css";
@@ -40,6 +41,8 @@ export function Form({
   setChallengePeriod,
   onSubmit,
 }: Props) {
+  const hasStatement = statement.length > 0;
+
   return (
     <form className={styles.form} onSubmit={onSubmit}>
       <div className={styles.inputWrapper}>
@@ -57,23 +60,22 @@ export function Form({
           placeholder="I assert that..."
         />
       </div>
-      {true && (
-        <div className={styles.inputWrapper}>
-          <label htmlFor="currency" className={styles.label}>
-            Currency:{" "}
-            <InfoIcon>
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Culpa
-              impedit distinctio amet eligendi sit possimus suscipit totam illum
-            </InfoIcon>
-          </label>
-          <RadioDropdown
-            id="currency"
-            items={currencyOptions}
-            selected={selectedCurrency}
-            onSelect={setCurrency}
-          />
-        </div>
-      )}
+
+      <div className={styles.inputWrapper}>
+        <label htmlFor="currency" className={styles.label}>
+          Currency:{" "}
+          <InfoIcon>
+            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Culpa
+            impedit distinctio amet eligendi sit possimus suscipit totam illum
+          </InfoIcon>
+        </label>
+        <RadioDropdown
+          id="currency"
+          items={currencyOptions}
+          selected={selectedCurrency}
+          onSelect={setCurrency}
+        />
+      </div>
       <div className={styles.inputWrapper}>
         <label htmlFor="bond" className={styles.label}>
           Bond Amount:{" "}
@@ -107,14 +109,27 @@ export function Form({
           onSelect={setChallengePeriod}
         />
       </div>
-      <Button
-        type="submit"
-        style={{
-          marginLeft: "auto",
-        }}
-      >
-        Submit
-      </Button>
+      <SubmitButton hasStatement={hasStatement} />
     </form>
+  );
+}
+
+function SubmitButton({ hasStatement }: { hasStatement: boolean }) {
+  const submitButton = (
+    <Button disabled={!hasStatement} type="submit">
+      Submit
+    </Button>
+  );
+
+  return (
+    <div className={styles.submitButtonWrapper} aria-disabled={!hasStatement}>
+      {hasStatement ? (
+        submitButton
+      ) : (
+        <Tooltip content="Please enter a statement to submit">
+          <span>{submitButton}</span>
+        </Tooltip>
+      )}
+    </div>
   );
 }

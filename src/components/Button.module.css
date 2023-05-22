@@ -13,3 +13,9 @@
 .button:hover {
   filter: brightness(1.25);
 }
+
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
