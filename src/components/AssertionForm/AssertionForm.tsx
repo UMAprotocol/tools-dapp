@@ -3,6 +3,7 @@
 import { challengePeriods, currenciesByChain } from "@/constants";
 import type { DropdownItem } from "@/types";
 import { useState } from "react";
+import { useIsClient } from "usehooks-ts";
 import type { Address } from "wagmi";
 import { useNetwork, useToken } from "wagmi";
 import styles from "./AssertionForm.module.css";
@@ -10,6 +11,7 @@ import { Form } from "./Form";
 import { Preview } from "./Preview";
 
 export function AssertionForm() {
+  const isClient = useIsClient();
   const { chain } = useNetwork();
   const chainId = (chain?.id ?? 1) as keyof typeof currenciesByChain;
   const { WETH, DAI, USDC } = currenciesByChain[chainId] ?? {};
@@ -18,9 +20,11 @@ export function AssertionForm() {
   const { data: usdc } = useToken({ address: USDC as Address });
   const currencies = { weth, dai, usdc };
   const [statement, setStatement] = useState("");
-  const [bond, setBond] = useState("");
+  const [bond, setBond] = useState("1");
   const [bondError, setBondError] = useState("");
-  const [challengePeriod, setChallengePeriod] = useState<DropdownItem>();
+  const [challengePeriod, setChallengePeriod] = useState<DropdownItem>(
+    challengePeriods[2]
+  );
   const currencyOptions = Object.entries(currencies)
     .map(([currency, details]) =>
       !!details
@@ -37,6 +41,9 @@ export function AssertionForm() {
     (c) => c?.value === currency.value
   );
 
+  const currencyDetails =
+    currencies[selectedCurrency?.value as keyof typeof currencies];
+
   function onSubmit() {
     return;
   }
@@ -47,6 +54,7 @@ export function AssertionForm() {
     challengePeriods,
     statement,
     currency,
+    decimals: currencyDetails?.decimals ?? 18,
     bond,
     challengePeriod,
     setStatement,
@@ -63,7 +71,10 @@ export function AssertionForm() {
     currency: selectedCurrency?.value?.toUpperCase(),
     bond,
     challengePeriod: challengePeriod?.label,
+    currencyDetails,
   };
+
+  if (!isClient) return null;
 
   return (
     <div className={styles.wrapper}>

@@ -11,6 +11,7 @@ import styles from "./Form.module.css";
 interface Props {
   currencyOptions: DropdownItem[];
   selectedCurrency: DropdownItem | undefined;
+  decimals: number;
   challengePeriods: DropdownItem[];
   statement: string;
   setStatement: (statement: string) => void;
@@ -30,6 +31,7 @@ export function Form({
   setStatement,
   selectedCurrency,
   setCurrency,
+  decimals,
   bond,
   setBond,
   bondError,
@@ -55,21 +57,23 @@ export function Form({
           placeholder="I assert that..."
         />
       </div>
-      <div className={styles.inputWrapper}>
-        <label htmlFor="currency" className={styles.label}>
-          Currency:{" "}
-          <InfoIcon>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Culpa
-            impedit distinctio amet eligendi sit possimus suscipit totam illum
-          </InfoIcon>
-        </label>
-        <RadioDropdown
-          id="currency"
-          items={currencyOptions}
-          selected={selectedCurrency}
-          onSelect={setCurrency}
-        />
-      </div>
+      {true && (
+        <div className={styles.inputWrapper}>
+          <label htmlFor="currency" className={styles.label}>
+            Currency:{" "}
+            <InfoIcon>
+              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Culpa
+              impedit distinctio amet eligendi sit possimus suscipit totam illum
+            </InfoIcon>
+          </label>
+          <RadioDropdown
+            id="currency"
+            items={currencyOptions}
+            selected={selectedCurrency}
+            onSelect={setCurrency}
+          />
+        </div>
+      )}
       <div className={styles.inputWrapper}>
         <label htmlFor="bond" className={styles.label}>
           Bond Amount:{" "}
@@ -81,6 +85,7 @@ export function Form({
         <DecimalInput
           id="bond"
           value={bond}
+          maxDecimals={decimals}
           onInput={setBond}
           addErrorMessage={setBondError}
           removeErrorMessage={() => setBondError("")}

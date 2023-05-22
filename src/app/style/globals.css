@@ -181,8 +181,8 @@ input::placeholder {
   color: var(--blue-grey-400);
 }
 
-.input::-webkit-inner-spin-button,
-.input::-webkit-outer-spin-button {
+input::-webkit-inner-spin-button,
+input::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
