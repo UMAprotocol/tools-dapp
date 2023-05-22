@@ -9,11 +9,11 @@ import type { DropdownItem } from "@/types";
 import styles from "./Form.module.css";
 
 interface Props {
-  currencies: DropdownItem[];
+  currencyOptions: DropdownItem[];
+  selectedCurrency: DropdownItem | undefined;
   challengePeriods: DropdownItem[];
   statement: string;
   setStatement: (statement: string) => void;
-  currency: DropdownItem | undefined;
   setCurrency: (currency: DropdownItem) => void;
   bond: string;
   setBond: (bond: string) => void;
@@ -24,11 +24,11 @@ interface Props {
   onSubmit: () => void;
 }
 export function Form({
-  currencies,
+  currencyOptions,
   challengePeriods,
   statement,
   setStatement,
-  currency,
+  selectedCurrency,
   setCurrency,
   bond,
   setBond,
@@ -65,8 +65,8 @@ export function Form({
         </label>
         <RadioDropdown
           id="currency"
-          items={currencies}
-          selected={currency}
+          items={currencyOptions}
+          selected={selectedCurrency}
           onSelect={setCurrency}
         />
       </div>
