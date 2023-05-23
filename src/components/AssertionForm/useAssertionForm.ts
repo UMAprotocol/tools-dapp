@@ -21,7 +21,7 @@ export function useAssertionForm() {
   const { data: usdc } = useToken({ address: USDC });
   const currencies = { weth, dai, usdc };
   const [claim, setClaim] = useState("");
-  const [bond, setBond] = useState("10000");
+  const [bond, setBond] = useState("1");
   const [bondError, setBondError] = useState("");
   const [challengePeriod, setChallengePeriod] = useState<DropdownItem>(
     challengePeriods[2]
@@ -52,10 +52,8 @@ export function useAssertionForm() {
   const minimumBond = useMinimumBond({ currencyAddress, oracleAddress });
   const decimals = currencyDetails?.decimals ?? 18;
   const currencySymbol = currencyDetails?.symbol ?? "??";
-  const bondBigInt = BigInt(
-    parseUnits(bond.toString() as `${number}`, decimals)
-  );
-
+  const bondBigInt = BigInt(parseUnits(bond as `${number}`, decimals));
+  const challengePeriodBigInt = BigInt(challengePeriod.value);
   useEffect(() => {
     if (!currencyDetails?.symbol || !minimumBond) return;
     if (BigInt(bond) < minimumBond) {
@@ -81,6 +79,7 @@ export function useAssertionForm() {
     bond,
     bondBigInt,
     challengePeriod,
+    challengePeriodBigInt,
     setClaim,
     setCurrency,
     setBond,

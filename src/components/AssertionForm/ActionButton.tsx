@@ -13,6 +13,7 @@ interface Props {
   chainId: ChainId;
   claim: string;
   bondBigInt: bigint;
+  challengePeriodBigInt: bigint;
   currencyAddress: Address;
   decimals: number;
 }
@@ -46,10 +47,11 @@ export function ActionButton(props: Props) {
 
 function SubmitButton({
   claim,
+  bondBigInt,
+  challengePeriodBigInt,
   userAddress,
   currencyAddress,
   oracleAddress,
-  bondBigInt,
 }: Props) {
   const hasClaim = claim.length > 0;
 
@@ -62,7 +64,7 @@ function SubmitButton({
       userAddress,
       zeroAddress,
       zeroAddress,
-      720000n,
+      challengePeriodBigInt,
       currencyAddress,
       bondBigInt,
       stringToHex("ASSERT_TRUTH", { size: 32 }),
