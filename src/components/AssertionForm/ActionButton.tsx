@@ -32,7 +32,9 @@ export function ActionButton(props: Props) {
   return (
     <div className={styles.submitButtonWrapper}>
       {insufficientFunds ? (
-        <p>too poor sorry</p>
+        <p className={styles.insufficientFunds}>
+          Insufficient balance for bond
+        </p>
       ) : hasApproved ? (
         <SubmitButton {...props} />
       ) : (

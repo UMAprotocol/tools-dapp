@@ -6,3 +6,7 @@
 .submitButtonWrapper[aria-disabled="true"] {
   cursor: not-allowed;
 }
+
+.insufficientFunds {
+  color: var(--red-500);
+}
