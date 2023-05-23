@@ -74,22 +74,16 @@ function SubmitButton({
 
   const { write } = useContractWrite(config);
 
-  const submitButton = (
-    <Button disabled={!hasClaim} type="submit" onClick={write}>
-      Submit
-    </Button>
-  );
+  const tooltipContent = hasClaim
+    ? undefined
+    : "Please enter a claim to submit";
 
   return (
-    <>
-      {hasClaim ? (
-        submitButton
-      ) : (
-        <Tooltip content="Please enter a claim to submit">
-          <span>{submitButton}</span>
-        </Tooltip>
-      )}
-    </>
+    <Tooltip content={tooltipContent}>
+      <Button disabled={!hasClaim} onClick={write}>
+        <span>Submit</span>
+      </Button>
+    </Tooltip>
   );
 }
 

@@ -4,16 +4,17 @@ import * as RadixTooltip from "@radix-ui/react-tooltip";
 import styles from "./Tooltip.module.css";
 interface Props {
   children: React.ReactNode;
-  content: React.ReactNode;
+  content: React.ReactNode | undefined;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
 }
 export function Tooltip({ children, content, open, onOpenChange }: Props) {
+  if (!content) return <>{children}</>;
   return (
     <RadixTooltip.Provider delayDuration={100}>
       <RadixTooltip.Root open={open} onOpenChange={onOpenChange}>
         <RadixTooltip.Trigger asChild className={styles.trigger}>
-          {children}
+          <span>{children}</span>
         </RadixTooltip.Trigger>
         <RadixTooltip.Portal>
           <RadixTooltip.Content
