@@ -5,12 +5,12 @@ import type { AssertionFormProps } from "./useAssertionForm";
 
 export function Form(props: AssertionFormProps) {
   const {
-    currencyOptions,
+    currencies,
+    currency,
     challengePeriods,
     claim,
     setClaim,
     userAddress,
-    selectedCurrency,
     currencyAddress,
     oracleAddress,
     setCurrency,
@@ -44,8 +44,8 @@ export function Form(props: AssertionFormProps) {
         </label>
         <RadioDropdown
           id="currency"
-          items={currencyOptions}
-          selected={selectedCurrency}
+          items={currencies}
+          selected={currency}
           onSelect={setCurrency}
         />
       </div>

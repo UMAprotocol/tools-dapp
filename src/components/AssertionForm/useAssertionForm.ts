@@ -15,43 +15,29 @@ export function useAssertionForm() {
   const { address: userAddress } = useAccount();
   const { chain } = useNetwork();
   const chainId = (chain?.id ?? 1) as ChainId;
+
   const { WETH, DAI, USDC } = currenciesByChain[chainId] ?? {};
   const { data: weth } = useToken({ address: WETH });
   const { data: dai } = useToken({ address: DAI });
   const { data: usdc } = useToken({ address: USDC });
-  const currencies = { weth, dai, usdc };
+  const currenciesData = { weth, dai, usdc };
   const [claim, setClaim] = useState("");
   const [bond, setBond] = useState("1");
   const [bondError, setBondError] = useState("");
   const [challengePeriod, setChallengePeriod] = useState<DropdownItem>(
     challengePeriods[2]
   );
-  const currencyOptions = Object.entries(currencies)
-    .map(([currency, details]) =>
-      !!details
-        ? {
-            value: currency,
-            label: `${details.name} - (${details.symbol})`,
-          }
-        : undefined
-    )
-    .filter(Boolean);
-  const [currency, setCurrency] = useState(currencyOptions[0]);
-
-  const selectedCurrency = currencyOptions.find(
-    (c) => c?.value === currency?.value
-  );
-
+  // data for currencies is async, so we set it when its available (see useEffect below)
+  const [currency, setCurrency] = useState<DropdownItem>();
+  const currencies = makeCurrencyDropdownOptions();
   const currencyDetails =
-    currencies[selectedCurrency?.value as keyof typeof currencies];
-
+    currenciesData[currency?.value as keyof typeof currenciesData];
   const currencyAddress = currencyDetails?.address;
-
   const oracleAddress = oov3AddressesByChainId[chainId];
 
   const minimumBond = useMinimumBond({ currencyAddress, oracleAddress });
   const decimals = currencyDetails?.decimals ?? 18;
-  const currencySymbol = currencyDetails?.symbol ?? "??";
+  const currencySymbol = currencyDetails?.symbol ?? "";
   const bondBigInt = BigInt(parseUnits(bond as `${number}`, decimals));
   const challengePeriodBigInt = BigInt(challengePeriod.value);
 
@@ -66,11 +52,29 @@ export function useAssertionForm() {
     } else {
       setBondError("");
     }
-  }, [minimumBond, bond, currencyDetails?.symbol]);
+  }, [minimumBond, bond, currencyDetails?.symbol, bondBigInt, decimals]);
+
+  useEffect(() => {
+    if (!!currencies && !currency) {
+      setCurrency(currencies[0]);
+    }
+  }, [currencies, currency]);
+
+  function makeCurrencyDropdownOptions() {
+    return Object.entries(currenciesData)
+      .map(([currency, details]) =>
+        !!details
+          ? {
+              value: currency,
+              label: `${details.name} - (${details.symbol})`,
+            }
+          : undefined
+      )
+      .filter(Boolean);
+  }
 
   return {
-    currencyOptions,
-    selectedCurrency,
+    currencies,
     challengePeriods,
     claim,
     chainId,
