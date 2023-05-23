@@ -5,21 +5,21 @@ import type { AssertionFormProps } from "./useAssertionForm";
 
 export function Form(props: AssertionFormProps) {
   const {
+    claim,
     currencies,
     currency,
     challengePeriods,
-    claim,
-    setClaim,
+    challengePeriod,
     userAddress,
     currencyAddress,
     oracleAddress,
-    setCurrency,
     decimals,
     bond,
-    setBond,
     bondError,
+    setClaim,
+    setBond,
     setBondError,
-    challengePeriod,
+    setCurrency,
     setChallengePeriod,
   } = props;
   return (
