@@ -6,7 +6,7 @@ import {
 import { useMinimumBond } from "@/hooks";
 import type { ChainId, DropdownItem } from "@/types";
 import { useEffect, useState } from "react";
-import { parseUnits } from "viem";
+import { formatUnits, parseUnits } from "viem";
 import { useAccount, useNetwork, useToken } from "wagmi";
 
 export type AssertionFormProps = ReturnType<typeof useAssertionForm>;
@@ -54,11 +54,14 @@ export function useAssertionForm() {
   const currencySymbol = currencyDetails?.symbol ?? "??";
   const bondBigInt = BigInt(parseUnits(bond as `${number}`, decimals));
   const challengePeriodBigInt = BigInt(challengePeriod.value);
+
   useEffect(() => {
     if (!currencyDetails?.symbol || !minimumBond) return;
-    if (BigInt(bond) < minimumBond) {
+    if (bondBigInt < minimumBond) {
       setBondError(
-        `Bond must be at least ${minimumBond} ${currencyDetails.symbol}`
+        `Bond must be at least ${formatUnits(minimumBond, decimals)} ${
+          currencyDetails.symbol
+        }`
       );
     } else {
       setBondError("");
