@@ -60,7 +60,7 @@ function SubmitButton({
     abi: oov3Abi,
     functionName: "assertTruth",
     args: [
-      stringToHex(claim || "stuff", { size: 32 }),
+      stringToHex(claim, { size: 32 }),
       userAddress,
       zeroAddress,
       zeroAddress,
