@@ -40,10 +40,7 @@ export function Form(props: AssertionFormProps) {
       <div className={styles.inputWrapper}>
         <label htmlFor="currency" className={styles.label}>
           Currency:{" "}
-          <InfoIcon>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Culpa
-            impedit distinctio amet eligendi sit possimus suscipit totam illum
-          </InfoIcon>
+          <InfoIcon>Choose the currency you want to use for the bond.</InfoIcon>
         </label>
         <RadioDropdown
           id="currency"
