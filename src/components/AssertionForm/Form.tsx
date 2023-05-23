@@ -1,5 +1,5 @@
 import { DecimalInput, InfoIcon, RadioDropdown, TextArea } from "@/components";
-import { ActionButton } from "./ActionButton";
+import { ActionButton } from "./ActionButton/ActionButton";
 import styles from "./Form.module.css";
 import type { AssertionFormProps } from "./useAssertionForm";
 

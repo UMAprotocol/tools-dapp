@@ -39,6 +39,7 @@ export function useAssertionForm() {
   const decimals = currencyDetails?.decimals ?? 18;
   const currencySymbol = currencyDetails?.symbol ?? "";
   const bondBigInt = BigInt(parseUnits(bond as `${number}`, decimals));
+  const bondFormatted = formatUnits(bondBigInt, decimals);
   const challengePeriodBigInt = BigInt(challengePeriod.value);
 
   useEffect(() => {
@@ -86,6 +87,7 @@ export function useAssertionForm() {
     decimals,
     bond,
     bondBigInt,
+    bondFormatted,
     bondError,
     userAddress,
     currencyAddress,
