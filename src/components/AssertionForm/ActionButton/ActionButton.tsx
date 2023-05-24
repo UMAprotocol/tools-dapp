@@ -5,40 +5,33 @@ import styles from "./ActionButton.module.css";
 import { ApproveButton } from "./ApproveButton";
 import { SubmitButton } from "./SubmitButton";
 
-export type Props = {
+export type ActionButtonDelegatedProps = {
   userAddress: Address;
   oracleAddress: Address;
   chainId: ChainId;
   claim: string;
   bondBigInt: bigint;
+  bondFormatted: string;
   challengePeriodBigInt: bigint;
   currencyAddress: Address;
+  currencySymbol: string;
   decimals: number;
 };
 
-export function ActionButton(props: Props) {
-  const { hasApproved, insufficientFunds } = useActionButton(props);
+export function ActionButton(delegatedProps: ActionButtonDelegatedProps) {
+  const props = useActionButton(delegatedProps);
+  const { hasApproved } = props;
 
   return (
     <div className={styles.submitButtonWrapper}>
-      {insufficientFunds ? (
-        <p className={styles.insufficientFunds}>
-          Insufficient balance for bond
-        </p>
-      ) : hasApproved ? (
-        <SubmitButton {...props} />
-      ) : (
-        <ApproveButton {...props} />
-      )}
+      {hasApproved ? <SubmitButton {...props} /> : <ApproveButton {...props} />}
     </div>
   );
 }
 
-function InsufficientFunds(props: Props) {
-  const { balance, bondFormatted } = props;
-}
+export type ActionButtonProps = ReturnType<typeof useActionButton>;
 
-function useActionButton(props: Props) {
+function useActionButton(props: ActionButtonDelegatedProps) {
   const { userAddress, chainId, bondBigInt, currencyAddress, oracleAddress } =
     props;
   const { balance, allowance } = useBalanceAndAllowance({

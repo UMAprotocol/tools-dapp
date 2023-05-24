@@ -2,29 +2,35 @@ import { oov3Abi } from "@/abis";
 import { Button, Tooltip } from "@/components";
 import { stringToHex, zeroAddress } from "viem";
 import { useContractWrite, usePrepareContractWrite } from "wagmi";
-import type { Props } from "./ActionButton";
+import type { ActionButtonProps } from "./ActionButton";
 
-export function SubmitButton(props: Props) {
-  const { hasClaim, submitAssertion, tooltipContent } = useSubmitButton(props);
+export function SubmitButton(props: ActionButtonProps) {
+  const { disabled, submitAssertion, tooltipContent } = useSubmitButton(props);
   return (
     <Tooltip content={tooltipContent}>
-      <Button disabled={!hasClaim} onClick={submitAssertion}>
+      <Button disabled={disabled} onClick={submitAssertion}>
         <span>Submit</span>
       </Button>
     </Tooltip>
   );
 }
 
-function useSubmitButton(props: Props) {
+function useSubmitButton(props: ActionButtonProps) {
   const {
     claim,
     bondBigInt,
     challengePeriodBigInt,
+    insufficientFunds,
+    balance,
+    bondFormatted,
     userAddress,
     currencyAddress,
+    currencySymbol,
     oracleAddress,
   } = props;
   const hasClaim = claim.length > 0;
+  const balanceFormatted = balance?.formatted ?? "0";
+  const disabled = !hasClaim || insufficientFunds;
 
   const { config } = usePrepareContractWrite({
     address: oracleAddress,
@@ -45,14 +51,22 @@ function useSubmitButton(props: Props) {
 
   const { write } = useContractWrite(config);
 
-  const tooltipContent = hasClaim
-    ? undefined
-    : "Please enter a claim to submit";
+  const tooltipContent = getTooltipContent();
+
+  function getTooltipContent() {
+    if (!hasClaim) {
+      return "Please enter a claim to submit";
+    }
+    if (insufficientFunds) {
+      return `Insufficient funds. You have ${balanceFormatted} ${currencySymbol} but need ${bondFormatted} ${currencySymbol}.`;
+    }
+    return undefined;
+  }
 
   return {
     ...props,
-    hasClaim,
-    submitAssertion: () => write?.(),
+    disabled,
     tooltipContent,
+    submitAssertion: () => write?.(),
   };
 }

@@ -1,13 +1,13 @@
 import { Button } from "@/components";
 import { erc20ABI, useContractWrite, usePrepareContractWrite } from "wagmi";
-import type { Props } from "./ActionButton";
+import type { ActionButtonProps } from "./ActionButton";
 
-export function ApproveButton(props: Props) {
+export function ApproveButton(props: ActionButtonProps) {
   const { approve } = useApproveButton(props);
   return <Button onClick={approve}>Approve</Button>;
 }
 
-function useApproveButton(props: Props) {
+function useApproveButton(props: ActionButtonProps) {
   const { currencyAddress, chainId, oracleAddress, bondBigInt } = props;
 
   const { config } = usePrepareContractWrite({
