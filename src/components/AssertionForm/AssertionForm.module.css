@@ -1,0 +1,7 @@
+.wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding-inline: 44px;
+  padding-top: 32px;
+  padding-bottom: 64px;
+}

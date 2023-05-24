@@ -1,0 +1,19 @@
+.form {
+  max-width: var(--form-width);
+}
+
+.inputWrapper {
+  margin-bottom: 28px;
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.bondError {
+  margin-top: 8px;
+  color: var(--red-500);
+}

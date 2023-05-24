@@ -2,10 +2,13 @@
 
 import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { configureChains, createConfig, WagmiConfig } from "wagmi";
-import { mainnet } from "wagmi/chains";
+import { goerli, mainnet } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
 
-const { chains, publicClient } = configureChains([mainnet], [publicProvider()]);
+const { chains, publicClient } = configureChains(
+  [mainnet, goerli],
+  [publicProvider()]
+);
 
 const { connectors } = getDefaultWallets({
   appName: "My RainbowKit App",

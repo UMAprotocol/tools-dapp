@@ -1,4 +1,4 @@
-import { Banner, RedLink } from "@/components";
+import { AssertionForm, Banner, RedLink } from "@/components";
 
 export default function AssertionToolPage() {
   return (
@@ -16,6 +16,7 @@ export default function AssertionToolPage() {
           </>
         }
       />
+      <AssertionForm />
     </main>
   );
 }

@@ -1,0 +1,7 @@
+.input {
+  composes: box from "./shared.module.css";
+}
+
+.input:disabled {
+  cursor: not-allowed;
+}

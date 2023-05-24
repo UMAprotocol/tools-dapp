@@ -1,0 +1,40 @@
+.chevron {
+  transition: transform var(--animation-duration);
+}
+
+.chevron path {
+  stroke: currentColor;
+}
+
+.placeholder {
+  opacity: 0.5;
+}
+
+.trigger {
+  composes: box from "./shared.module.css";
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.trigger[data-state="open"] .chevron {
+  transform: rotate(180deg);
+}
+
+.trigger[data-disabled] {
+  opacity: 0.25;
+}
+
+.content {
+  composes: box from "./shared.module.css";
+  width: var(--radix-dropdown-menu-trigger-width);
+  margin-top: 4px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 44px;
+  padding-inline: 16px;
+}
