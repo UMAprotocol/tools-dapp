@@ -6,6 +6,7 @@ const config: StorybookConfig = {
     "@storybook/addon-essentials",
     "@storybook/addon-interactions",
     "msw-storybook-addon",
+    "storybook-addon-module-mock",
   ],
   framework: {
     name: "@storybook/nextjs",
@@ -14,9 +15,7 @@ const config: StorybookConfig = {
   docs: {
     autodocs: "tag",
   },
-  staticDirs: [
-    "../src/app/public",
-  ],
+  staticDirs: ["../src/app/public"],
   webpackFinal: async (config) => {
     // this modifies the existing image rule to exclude .svg files
     // since we want to handle those files with @svgr/webpack

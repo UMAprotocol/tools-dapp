@@ -11,6 +11,8 @@ type Props = {
 export function TransactionNotification({ hash }: Props) {
   const { status } = useWaitForTransaction({ hash });
 
+  if (status === "idle") return null;
+
   const duration = status === "loading" ? Infinity : 5000;
 
   return (
