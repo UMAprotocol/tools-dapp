@@ -1,4 +1,5 @@
 import { Button } from "@/components";
+import { useNotifications } from "@/contexts";
 import { erc20ABI, useContractWrite, usePrepareContractWrite } from "wagmi";
 import type { ActionButtonProps } from "./ActionButton";
 
@@ -9,6 +10,7 @@ export function ApproveButton(props: ActionButtonProps) {
 
 function useApproveButton(props: ActionButtonProps) {
   const { currencyAddress, chainId, oracleAddress, bondBigInt } = props;
+  const { addHash } = useNotifications();
 
   const { config } = usePrepareContractWrite({
     address: currencyAddress,
@@ -18,7 +20,11 @@ function useApproveButton(props: ActionButtonProps) {
     args: [oracleAddress, bondBigInt],
   });
 
-  const { write } = useContractWrite(config);
+  const { data, write } = useContractWrite(config);
+
+  if (data?.hash) {
+    addHash(data.hash);
+  }
 
   return {
     ...props,

@@ -1,7 +1,11 @@
 import { oov3Abi } from "@/abis";
 import { Button, Tooltip } from "@/components";
 import { stringToHex, zeroAddress } from "viem";
-import { useContractWrite, usePrepareContractWrite } from "wagmi";
+import {
+  useContractWrite,
+  usePrepareContractWrite,
+  useWaitForTransaction,
+} from "wagmi";
 import type { ActionButtonProps } from "./ActionButton";
 
 export function SubmitButton(props: ActionButtonProps) {
@@ -30,7 +34,6 @@ function useSubmitButton(props: ActionButtonProps) {
   } = props;
   const hasClaim = claim.length > 0;
   const balanceFormatted = balance?.formatted ?? "0";
-  const disabled = !hasClaim || insufficientFunds;
 
   const { config } = usePrepareContractWrite({
     address: oracleAddress,
@@ -49,11 +52,19 @@ function useSubmitButton(props: ActionButtonProps) {
     ],
   });
 
-  const { write } = useContractWrite(config);
+  const { data, write } = useContractWrite(config);
+
+  const result = useWaitForTransaction({
+    hash: data?.hash,
+  });
 
   const tooltipContent = getTooltipContent();
+  const disabled = !hasClaim || insufficientFunds || result.isLoading;
 
   function getTooltipContent() {
+    if (result.isLoading) {
+      return "Submitting assertion...";
+    }
     if (!hasClaim) {
       return "Please enter a claim to submit";
     }
@@ -67,6 +78,7 @@ function useSubmitButton(props: ActionButtonProps) {
     ...props,
     disabled,
     tooltipContent,
+    status,
     submitAssertion: () => write?.(),
   };
 }
