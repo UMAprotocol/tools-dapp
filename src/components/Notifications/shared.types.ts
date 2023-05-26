@@ -18,3 +18,5 @@ export type AssertNotification = BaseNotification & {
 };
 
 export type TransactionNotification = AssertNotification | ApproveNotification;
+
+export type NotificationStatus = "loading" | "success" | "error" | "idle";

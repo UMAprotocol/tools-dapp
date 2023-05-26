@@ -1,5 +1,6 @@
 import { oov3Abi } from "@/abis";
 import { useNotifications } from "@/components/Notifications";
+import { useEffect } from "react";
 import { stringToHex, zeroAddress } from "viem";
 import {
   useContractWrite,
@@ -63,14 +64,16 @@ function useSubmitButton(props: ActionButtonProps) {
     hash: data?.hash,
   });
 
-  if (data?.hash) {
-    addNotification({
-      type: "assert",
-      hash: data.hash,
-      chainId,
-      claim,
-    });
-  }
+  useEffect(() => {
+    if (data?.hash) {
+      addNotification({
+        type: "assert",
+        hash: data.hash,
+        chainId,
+        claim,
+      });
+    }
+  }, [data?.hash, addNotification, chainId, claim]);
 
   const tooltipContent = getTooltipContent();
   const disabled = !hasClaim || insufficientFunds || isLoading;

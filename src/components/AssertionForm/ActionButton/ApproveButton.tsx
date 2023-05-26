@@ -1,4 +1,5 @@
 import { useNotifications } from "@/components";
+import { useEffect } from "react";
 import {
   erc20ABI,
   useContractWrite,
@@ -46,15 +47,17 @@ function useApproveButton(props: ActionButtonProps) {
     hash: data?.hash,
   });
 
-  if (data?.hash) {
-    addNotification({
-      type: "approve",
-      hash: data.hash,
-      chainId,
-      formattedAmount: bondFormatted,
-      currencySymbol,
-    });
-  }
+  useEffect(() => {
+    if (data?.hash) {
+      addNotification({
+        type: "approve",
+        hash: data.hash,
+        chainId,
+        formattedAmount: bondFormatted,
+        currencySymbol,
+      });
+    }
+  }, [data?.hash, addNotification, chainId, bondFormatted, currencySymbol]);
 
   const tooltipContent = isLoading ? "Approving..." : undefined;
 
