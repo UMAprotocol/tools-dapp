@@ -22,7 +22,6 @@ export function useAssertionForm() {
   const { data: usdc } = useToken({ address: USDC });
   const currenciesData = { weth, dai, usdc };
   const [claim, setClaim] = useState("");
-  console.log(claim);
   const [bond, setBond] = useState("1");
   const [bondError, setBondError] = useState("");
   const [challengePeriod, setChallengePeriod] = useState<DropdownItem>(

@@ -186,3 +186,7 @@ input::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
+ul, ol {
+  list-style-position: inside;
+}
