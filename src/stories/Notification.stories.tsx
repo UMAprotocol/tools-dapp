@@ -59,9 +59,7 @@ const assertCommonArgs = {
   type: "assert" as const,
   claim: `### stuff
 
-  things
-  
-  [https://google.com](google.com)`,
+  things [https://google.com](google.com)`,
 };
 
 const approveCommonArgs = {

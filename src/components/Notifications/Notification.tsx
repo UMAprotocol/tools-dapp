@@ -1,9 +1,11 @@
 "use client";
 
 import linkStyles from "@/components/RedLink.module.css";
+import { makeBlockExplorerLink } from "@/helpers";
 import * as Toast from "@radix-ui/react-toast";
 import ReactMarkdown from "react-markdown";
 import { useWaitForTransaction } from "wagmi";
+import { RedLink } from "../RedLink";
 import styles from "./Notification.module.css";
 import type {
   ApproveNotification as ApproveProps,
@@ -14,8 +16,9 @@ import type {
 export function Notification(props: ApproveProps): JSX.Element;
 export function Notification(props: AssertProps): JSX.Element;
 export function Notification(props: ApproveProps | AssertProps) {
-  const { hash } = props;
+  const { hash, chainId } = props;
   const { status } = useWaitForTransaction({ hash });
+  const explorerLink = makeBlockExplorerLink(hash, chainId, "tx");
 
   if (status === "idle") return null;
 
@@ -29,7 +32,9 @@ export function Notification(props: ApproveProps | AssertProps) {
       {props.type === "approve" && (
         <ApproveNotification {...props} status={status} />
       )}
-      <Toast.Action altText="view on etherscan">View on etherscan</Toast.Action>
+      <Toast.Action altText="view on explorer" className={styles.action}>
+        <RedLink href={explorerLink}>View on explorer</RedLink>
+      </Toast.Action>
     </Toast.Root>
   );
 }
