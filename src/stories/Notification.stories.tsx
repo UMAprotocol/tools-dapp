@@ -28,6 +28,8 @@ const Template: Story = {
         >
           <NotificationsToastProvider>
             <Notification {...args} />
+            <Notification {...args} />
+            <Notification {...args} />
           </NotificationsToastProvider>
         </div>
       </MockWalletConfig>

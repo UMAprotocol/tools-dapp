@@ -76,6 +76,7 @@ function ApproveNotification({
         return "Approval failed";
     }
   }
+
   return (
     <>
       <Toast.Title>{title}</Toast.Title>
