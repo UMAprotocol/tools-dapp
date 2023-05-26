@@ -11,6 +11,7 @@ import "./style/animation.css";
 import "./style/colors.css";
 import "./style/containers.css";
 import "./style/fonts.css";
+import "./style/shadows.css";
 import "./style/globals.css";
 
 export const metadata = {

@@ -10,8 +10,9 @@ type Props = OvalProps & {
 };
 export function LoadingSpinner({
   variant = "red",
-  width = 40,
-  height = 40,
+  width = 26,
+  height = 26,
+  strokeWidth = 4,
   color,
   secondaryColor,
   ...delegated
@@ -30,6 +31,7 @@ export function LoadingSpinner({
     <Oval
       width={width}
       height={height}
+      strokeWidth={strokeWidth}
       color={_color}
       secondaryColor={_secondaryColor}
       {...delegated}

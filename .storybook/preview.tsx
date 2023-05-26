@@ -6,6 +6,7 @@ import "../src/app/style/colors.css";
 import "../src/app/style/fonts.css";
 import "../src/app/style/containers.css";
 import "../src/app/style/globals.css";
+import "../src/app/style/shadows.css";
 import { date } from "../src/stories/mocks";
 import "./fonts.css";
 import "./rainbow.css";

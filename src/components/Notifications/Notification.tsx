@@ -2,9 +2,12 @@
 
 import linkStyles from "@/components/RedLink.module.css";
 import { makeBlockExplorerLink } from "@/helpers";
+import Success from "@/icons/success.svg";
+import Warning from "@/icons/warning.svg";
 import * as Toast from "@radix-ui/react-toast";
 import ReactMarkdown from "react-markdown";
 import { useWaitForTransaction } from "wagmi";
+import { LoadingSpinner } from "../LoadingSpinner";
 import { RedLink } from "../RedLink";
 import styles from "./Notification.module.css";
 import type {
@@ -24,17 +27,35 @@ export function Notification(props: ApproveProps | AssertProps) {
 
   const duration = status === "loading" ? Infinity : 5000;
 
+  const indicator = getIndicator();
+
+  function getIndicator() {
+    switch (status) {
+      case "loading":
+        return <LoadingSpinner variant="black" />;
+      case "success":
+        return <Success />;
+      case "error":
+        return <Warning />;
+      default:
+        return <LoadingSpinner />;
+    }
+  }
+
   return (
     <Toast.Root duration={duration} className={styles.root}>
-      {props.type === "assert" && (
-        <AssertNotification {...props} status={status} />
-      )}
-      {props.type === "approve" && (
-        <ApproveNotification {...props} status={status} />
-      )}
-      <Toast.Action altText="view on explorer" className={styles.action}>
-        <RedLink href={explorerLink}>View on explorer</RedLink>
-      </Toast.Action>
+      {indicator}
+      <div>
+        {props.type === "assert" && (
+          <AssertNotification {...props} status={status} />
+        )}
+        {props.type === "approve" && (
+          <ApproveNotification {...props} status={status} />
+        )}
+        <Toast.Action altText="view on explorer" className={styles.action}>
+          <RedLink href={explorerLink}>View on explorer</RedLink>
+        </Toast.Action>
+      </div>
     </Toast.Root>
   );
 }
@@ -48,9 +69,9 @@ function ApproveNotification({
   function getTitle() {
     switch (status) {
       case "loading":
-        return "Submitting approval...";
+        return "Approving...";
       case "success":
-        return "Approval submitted";
+        return "Approved successfully";
       case "error":
         return "Approval failed";
     }
