@@ -64,7 +64,7 @@ function makeWaitForTransactionMock(
         const mock = createMock(wagmi, "useWaitForTransaction");
         mock.mockReturnValue({
           status,
-        });
+        } as ReturnType<typeof wagmi.useWaitForTransaction>);
         return [mock];
       },
     },

@@ -1,5 +1,5 @@
 import { oov3Abi } from "@/abis";
-import { Button, Tooltip } from "@/components";
+import { useNotifications } from "@/components/Notifications";
 import { stringToHex, zeroAddress } from "viem";
 import {
   useContractWrite,
@@ -7,21 +7,25 @@ import {
   useWaitForTransaction,
 } from "wagmi";
 import type { ActionButtonProps } from "./ActionButton";
+import { TooltipButton } from "./TooltipButton";
 
 export function SubmitButton(props: ActionButtonProps) {
   const { disabled, submitAssertion, tooltipContent } = useSubmitButton(props);
   return (
-    <Tooltip content={tooltipContent}>
-      <Button disabled={disabled} onClick={submitAssertion}>
-        <span>Submit</span>
-      </Button>
-    </Tooltip>
+    <TooltipButton
+      disabled={disabled}
+      onClick={submitAssertion}
+      tooltipContent={tooltipContent}
+    >
+      Submit
+    </TooltipButton>
   );
 }
 
 function useSubmitButton(props: ActionButtonProps) {
   const {
     claim,
+    chainId,
     bondBigInt,
     challengePeriodBigInt,
     insufficientFunds,
@@ -32,6 +36,7 @@ function useSubmitButton(props: ActionButtonProps) {
     currencySymbol,
     oracleAddress,
   } = props;
+  const { addNotification } = useNotifications();
   const hasClaim = claim.length > 0;
   const balanceFormatted = balance?.formatted ?? "0";
 
@@ -54,15 +59,24 @@ function useSubmitButton(props: ActionButtonProps) {
 
   const { data, write } = useContractWrite(config);
 
-  const result = useWaitForTransaction({
+  const { isLoading } = useWaitForTransaction({
     hash: data?.hash,
   });
 
+  if (data?.hash) {
+    addNotification({
+      type: "assert",
+      hash: data.hash,
+      chainId,
+      claim,
+    });
+  }
+
   const tooltipContent = getTooltipContent();
-  const disabled = !hasClaim || insufficientFunds || result.isLoading;
+  const disabled = !hasClaim || insufficientFunds || isLoading;
 
   function getTooltipContent() {
-    if (result.isLoading) {
+    if (isLoading) {
       return "Submitting assertion...";
     }
     if (!hasClaim) {
@@ -78,7 +92,6 @@ function useSubmitButton(props: ActionButtonProps) {
     ...props,
     disabled,
     tooltipContent,
-    status,
     submitAssertion: () => write?.(),
   };
 }

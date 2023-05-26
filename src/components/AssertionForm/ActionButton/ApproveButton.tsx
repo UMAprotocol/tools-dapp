@@ -1,16 +1,36 @@
-import { Button } from "@/components";
-import { useNotifications } from "@/contexts";
-import { erc20ABI, useContractWrite, usePrepareContractWrite } from "wagmi";
+import { useNotifications } from "@/components";
+import {
+  erc20ABI,
+  useContractWrite,
+  usePrepareContractWrite,
+  useWaitForTransaction,
+} from "wagmi";
 import type { ActionButtonProps } from "./ActionButton";
+import { TooltipButton } from "./TooltipButton";
 
 export function ApproveButton(props: ActionButtonProps) {
-  const { approve } = useApproveButton(props);
-  return <Button onClick={approve}>Approve</Button>;
+  const { approve, disabled, tooltipContent } = useApproveButton(props);
+  return (
+    <TooltipButton
+      disabled={disabled}
+      onClick={approve}
+      tooltipContent={tooltipContent}
+    >
+      Approve
+    </TooltipButton>
+  );
 }
 
 function useApproveButton(props: ActionButtonProps) {
-  const { currencyAddress, chainId, oracleAddress, bondBigInt } = props;
-  const { addHash } = useNotifications();
+  const {
+    currencyAddress,
+    currencySymbol,
+    bondFormatted,
+    chainId,
+    oracleAddress,
+    bondBigInt,
+  } = props;
+  const { addNotification } = useNotifications();
 
   const { config } = usePrepareContractWrite({
     address: currencyAddress,
@@ -22,12 +42,26 @@ function useApproveButton(props: ActionButtonProps) {
 
   const { data, write } = useContractWrite(config);
 
+  const { isLoading } = useWaitForTransaction({
+    hash: data?.hash,
+  });
+
   if (data?.hash) {
-    addHash(data.hash);
+    addNotification({
+      type: "approve",
+      hash: data.hash,
+      chainId,
+      formattedAmount: bondFormatted,
+      currencySymbol,
+    });
   }
+
+  const tooltipContent = isLoading ? "Approving..." : undefined;
 
   return {
     ...props,
+    tooltipContent,
+    disabled: isLoading,
     approve: () => write?.(),
   };
 }

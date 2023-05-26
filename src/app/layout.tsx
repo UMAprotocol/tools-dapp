@@ -1,13 +1,17 @@
-import { Header, SideBar, WalletConfig } from "@/components";
+import {
+  Header,
+  Notifications,
+  NotificationsProvider,
+  SideBar,
+  WalletConfig,
+} from "@/components";
 import { halyard } from "@/constants";
-import { NotificationsProvider } from "@/contexts";
 import "@rainbow-me/rainbowkit/styles.css";
 import "./style/animation.css";
 import "./style/colors.css";
 import "./style/containers.css";
 import "./style/fonts.css";
 import "./style/globals.css";
-import { Notifications } from "@/components/Notifications";
 
 export const metadata = {
   title: "Tools for UMA",

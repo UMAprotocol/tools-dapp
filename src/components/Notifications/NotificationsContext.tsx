@@ -2,30 +2,32 @@
 
 import type { ReactNode } from "react";
 import { createContext, useContext, useState } from "react";
+import type { TransactionNotification } from "./shared.types";
 
 type NotificationsState = {
-  hashes: `0x${string}`[];
-  addHash: (hash: `0x${string}`) => void;
+  notifications: TransactionNotification[];
+  addNotification: (notification: TransactionNotification) => void;
 };
 
 const NotificationsContext = createContext<NotificationsState>({
-  hashes: [],
-  addHash: () => undefined,
+  notifications: [],
+  addNotification: () => undefined,
 });
 
 export function NotificationsProvider({ children }: { children: ReactNode }) {
-  const [hashes, setHashes] = useState<`0x${string}`[]>([]);
+  const [notifications, setNotifications] = useState<TransactionNotification[]>(
+    []
+  );
 
-  function addHash(hash: `0x${string}`) {
-    if (hashes.includes(hash)) return;
-    setHashes((prev) => [...prev, hash]);
+  function addNotification(notification: TransactionNotification) {
+    setNotifications((notifications) => [...notifications, notification]);
   }
 
   return (
     <NotificationsContext.Provider
       value={{
-        hashes,
-        addHash,
+        notifications,
+        addNotification,
       }}
     >
       {children}

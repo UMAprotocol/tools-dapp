@@ -3,12 +3,13 @@
 import * as Toast from "@radix-ui/react-toast";
 import { useWaitForTransaction } from "wagmi";
 import styles from "./TransactionNotification.module.css";
+import type { ApproveNotification, AssertNotification } from "./shared.types";
 
-type Props = {
-  hash: `0x${string}`;
-};
-
-export function TransactionNotification({ hash }: Props) {
+export function Notification(props: ApproveNotification): JSX.Element;
+export function Notification(props: AssertNotification): JSX.Element;
+export function Notification({
+  hash,
+}: ApproveNotification | AssertNotification) {
   const { status } = useWaitForTransaction({ hash });
 
   if (status === "idle") return null;
