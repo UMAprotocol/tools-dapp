@@ -1,5 +1,5 @@
 import { oov3Abi } from "@/abis";
-import { useNotifications } from "@/components/Notifications";
+import { useNotifications } from "@/components";
 import { useEffect } from "react";
 import { stringToHex, zeroAddress } from "viem";
 import {

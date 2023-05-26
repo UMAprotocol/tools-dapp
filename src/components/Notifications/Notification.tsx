@@ -3,12 +3,15 @@
 import * as Toast from "@radix-ui/react-toast";
 import { useWaitForTransaction } from "wagmi";
 import styles from "./Notification.module.css";
-import type { NotificationStatus } from "./shared.types";
-import { ApproveNotification, AssertNotification } from "./shared.types";
+import type {
+  ApproveNotification as ApproveProps,
+  AssertNotification as AssertProps,
+  NotificationStatus,
+} from "./shared.types";
 
-export function Notification(props: ApproveNotification): JSX.Element;
-export function Notification(props: AssertNotification): JSX.Element;
-export function Notification(props: ApproveNotification | AssertNotification) {
+export function Notification(props: ApproveProps): JSX.Element;
+export function Notification(props: AssertProps): JSX.Element;
+export function Notification(props: ApproveProps | AssertProps) {
   const { hash } = props;
   const { status } = useWaitForTransaction({ hash });
 
@@ -33,7 +36,7 @@ function ApproveNotification({
   formattedAmount,
   currencySymbol,
   status,
-}: ApproveNotification & { status: NotificationStatus }) {
+}: ApproveProps & { status: NotificationStatus }) {
   const title = getTitle();
   function getTitle() {
     switch (status) {
@@ -58,7 +61,7 @@ function ApproveNotification({
 function AssertNotification({
   claim,
   status,
-}: AssertNotification & { status: NotificationStatus }) {
+}: AssertProps & { status: NotificationStatus }) {
   const title = getTitle();
   function getTitle() {
     switch (status) {
