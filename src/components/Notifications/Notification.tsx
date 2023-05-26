@@ -1,6 +1,8 @@
 "use client";
 
+import linkStyles from "@/components/RedLink.module.css";
 import * as Toast from "@radix-ui/react-toast";
+import ReactMarkdown from "react-markdown";
 import { useWaitForTransaction } from "wagmi";
 import styles from "./Notification.module.css";
 import type {
@@ -76,7 +78,17 @@ function AssertNotification({
   return (
     <>
       <Toast.Title>{title}</Toast.Title>
-      <Toast.Description>&quot;{claim}&quot;</Toast.Description>
+      <Toast.Description className={styles.assertDescription}>
+        <ReactMarkdown
+          components={{
+            a: (props) => (
+              <a {...props} target="_blank" className={linkStyles.link} />
+            ),
+          }}
+        >
+          {claim}
+        </ReactMarkdown>
+      </Toast.Description>
     </>
   );
 }

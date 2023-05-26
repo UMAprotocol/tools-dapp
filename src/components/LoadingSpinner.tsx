@@ -1,3 +1,5 @@
+"use client";
+
 import type { ComponentPropsWithoutRef } from "react";
 import { Oval } from "react-loader-spinner";
 

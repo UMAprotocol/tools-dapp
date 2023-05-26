@@ -46,7 +46,7 @@ function useSubmitButton(props: ActionButtonProps) {
     abi: oov3Abi,
     functionName: "assertTruth",
     args: [
-      stringToHex(claim, { size: 32 }),
+      stringToHex(claim),
       userAddress,
       zeroAddress,
       zeroAddress,
