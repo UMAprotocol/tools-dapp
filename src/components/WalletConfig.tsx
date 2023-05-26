@@ -8,7 +8,10 @@ import { publicProvider } from "wagmi/providers/public";
 
 const { chains, publicClient } = configureChains(
   [mainnet, goerli, polygon, optimism, arbitrum],
-  [infuraProvider({ apiKey: process.env.INFURA_KEY }), publicProvider()]
+  [
+    infuraProvider({ apiKey: process.env.NEXT_PUBLIC_INFURA_KEY }),
+    publicProvider(),
+  ]
 );
 
 const { connectors } = getDefaultWallets({
