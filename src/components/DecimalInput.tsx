@@ -7,6 +7,7 @@ type DecimalInput = {
   removeErrorMessage: (errorMessage: string) => void;
   maxDecimals: number;
   allowNegative: boolean;
+  required?: boolean;
 };
 /**
  * This hook is used to handle decimal inputs. It will add an error message if the user tries to enter a number with more than the specified number of decimals, or if the user tries to enter a negative number when `allowNegative` is set to false.
@@ -23,9 +24,15 @@ export function useHandleDecimalInput({
   removeErrorMessage,
   maxDecimals,
   allowNegative,
+  required,
 }: DecimalInput) {
   return (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
+    if (required && value === "") {
+      onInput(value);
+      addErrorMessage("This field is required");
+      return;
+    }
 
     const noNegativeNumbersErrorMessage = "Negative numbers are not allowed";
 
@@ -70,6 +77,7 @@ interface Props {
   placeholder?: string;
   maxDecimals?: number;
   allowNegative?: boolean;
+  required?: boolean;
   id?: string;
 }
 /**
@@ -92,6 +100,7 @@ export function DecimalInput({
   placeholder,
   maxDecimals = 18,
   allowNegative = true,
+  required,
   id,
 }: Props) {
   const onChange = useHandleDecimalInput({
@@ -100,6 +109,7 @@ export function DecimalInput({
     removeErrorMessage,
     maxDecimals,
     allowNegative,
+    required,
   });
 
   function makeStep() {
@@ -121,6 +131,7 @@ export function DecimalInput({
       spellCheck="false"
       className={styles.input}
       id={id}
+      required={required}
     />
   );
 }

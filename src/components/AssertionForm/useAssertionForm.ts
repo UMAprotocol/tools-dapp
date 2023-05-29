@@ -6,6 +6,7 @@ import {
 import { useMinimumBond } from "@/hooks";
 import type { ChainId, DropdownItem } from "@/types";
 import { useEffect, useState } from "react";
+import { useUpdateEffect } from "usehooks-ts";
 import type { Address } from "viem";
 import { formatUnits, parseUnits } from "viem";
 import { useAccount, useNetwork, useToken } from "wagmi";
@@ -32,8 +33,10 @@ export function useAssertionForm() {
   });
   const currenciesData = { weth, dai, usdc };
   const [claim, setClaim] = useState("");
+  const [claimError, setClaimError] = useState("");
   const [bond, setBond] = useState("1");
-  const [bondError, setBondError] = useState("");
+  const [bondInputError, setBondInputError] = useState("");
+  const [bondIsTooLow, setBondIsTooLow] = useState(false);
   const [challengePeriod, setChallengePeriod] = useState<DropdownItem>(
     challengePeriods[2]
   );
@@ -53,23 +56,33 @@ export function useAssertionForm() {
   const challengePeriodBigInt = BigInt(challengePeriod.value);
 
   useEffect(() => {
-    if (!currencyDetails?.symbol || !minimumBond) return;
-    if (bondBigInt < minimumBond) {
-      setBondError(
-        `Bond must be at least ${formatUnits(minimumBond, decimals)} ${
-          currencyDetails.symbol
-        }`
-      );
-    } else {
-      setBondError("");
+    if (minimumBond !== undefined && bondBigInt < minimumBond) {
+      setBondIsTooLow(true);
+      return;
     }
-  }, [minimumBond, bond, currencyDetails?.symbol, bondBigInt, decimals]);
+    setBondIsTooLow(false);
+  }, [bondBigInt, minimumBond]);
 
   useEffect(() => {
     if (!!currencies && !currency) {
       setCurrency(currencies[0]);
     }
   }, [currencies, currency]);
+
+  useUpdateEffect(() => {
+    if (claim === "") {
+      setClaimError("Claim is required");
+      return;
+    }
+    setClaimError("");
+  }, [claim]);
+
+  // only weth is supported on goerli, so switch to it if the user is on goerli
+  useEffect(() => {
+    if (chainId === 5) {
+      setCurrency(currencies[0]);
+    }
+  }, [chainId, currencies]);
 
   function makeCurrencyDropdownOptions() {
     return Object.entries(currenciesData)
@@ -87,6 +100,7 @@ export function useAssertionForm() {
   return {
     chainId,
     claim,
+    claimError,
     currencies,
     challengePeriods,
     challengePeriod,
@@ -95,17 +109,19 @@ export function useAssertionForm() {
     currencySymbol,
     currencyDetails,
     decimals,
+    minimumBond,
     bond,
     bondBigInt,
     bondFormatted,
-    bondError,
+    bondInputError,
+    bondIsTooLow,
     userAddress,
     currencyAddress,
     oracleAddress,
     setClaim,
     setCurrency,
     setBond,
-    setBondError,
+    setBondError: setBondInputError,
     setChallengePeriod,
   };
 }

@@ -1,4 +1,6 @@
 import { DecimalInput, InfoIcon, RadioDropdown, TextArea } from "@/components";
+import { chainsById } from "@/constants";
+import { formatUnits } from "viem";
 import { ActionButton } from "./ActionButton/ActionButton";
 import styles from "./Form.module.css";
 import type { AssertionFormProps } from "./useAssertionForm";
@@ -6,6 +8,7 @@ import type { AssertionFormProps } from "./useAssertionForm";
 export function Form(props: AssertionFormProps) {
   const {
     claim,
+    claimError,
     currencies,
     currency,
     challengePeriods,
@@ -14,14 +17,19 @@ export function Form(props: AssertionFormProps) {
     currencyAddress,
     oracleAddress,
     decimals,
+    minimumBond,
+    currencySymbol,
+    chainId,
     bond,
-    bondError,
+    bondInputError,
+    bondIsTooLow,
     setClaim,
     setBond,
     setBondError,
     setCurrency,
     setChallengePeriod,
   } = props;
+  const chainName = chainsById[chainId];
   return (
     <form className={styles.form} onSubmit={(e) => e.preventDefault()}>
       <div className={styles.inputWrapper}>
@@ -35,6 +43,7 @@ export function Form(props: AssertionFormProps) {
           onChange={(e) => setClaim(e.target.value)}
           placeholder="I assert that..."
         />
+        {claimError !== "" && <p className={styles.error}>{claimError}</p>}
       </div>
 
       <div className={styles.inputWrapper}>
@@ -60,11 +69,21 @@ export function Form(props: AssertionFormProps) {
           id="bond"
           value={bond}
           maxDecimals={decimals}
+          allowNegative={false}
+          required={true}
           onInput={setBond}
           addErrorMessage={setBondError}
           removeErrorMessage={() => setBondError("")}
         />
-        <p className={styles.bondError}>{bondError}</p>
+        {bondInputError !== "" && (
+          <p className={styles.error}>{bondInputError}</p>
+        )}
+        {bondIsTooLow && minimumBond !== undefined && (
+          <p className={styles.error}>
+            Bond must be at least {formatUnits(minimumBond, decimals)}{" "}
+            {currencySymbol} on {chainName}
+          </p>
+        )}
       </div>
       <div className={styles.inputWrapper}>
         <label htmlFor="challenge-period" className={styles.label}>
@@ -84,7 +103,8 @@ export function Form(props: AssertionFormProps) {
         !!userAddress &&
         !!currencyAddress &&
         !!oracleAddress &&
-        !bondError && (
+        !bondInputError &&
+        !bondIsTooLow && (
           <ActionButton
             {...props}
             userAddress={userAddress}
