@@ -12,4 +12,5 @@ export { RedLink } from "./RedLink";
 export { SideBar } from "./SideBar/SideBar";
 export { TextArea } from "./TextArea";
 export { Tooltip } from "./Tooltip";
+export { TooltipButton } from "./TooltipButton";
 export { WalletConfig } from "./WalletConfig";

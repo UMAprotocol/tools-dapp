@@ -1,8 +1,6 @@
 import { DecimalInput, InfoIcon, RadioDropdown, TextArea } from "@/components";
-import { chainsById } from "@/constants";
-import { formatUnits } from "viem";
-import { ActionButton } from "./ActionButton/ActionButton";
 import styles from "./Form.module.css";
+import { FormButton } from "./FormButton";
 import type { AssertionFormProps } from "./useAssertionForm";
 
 export function Form(props: AssertionFormProps) {
@@ -14,22 +12,20 @@ export function Form(props: AssertionFormProps) {
     challengePeriods,
     challengePeriod,
     userAddress,
+    isConnected,
     currencyAddress,
-    oracleAddress,
     decimals,
-    minimumBond,
-    currencySymbol,
-    chainId,
     bond,
     bondInputError,
-    bondIsTooLow,
+    bondIsTooLowError,
+    errors,
     setClaim,
     setBond,
     setBondError,
     setCurrency,
     setChallengePeriod,
   } = props;
-  const chainName = chainsById[chainId];
+
   return (
     <form className={styles.form} onSubmit={(e) => e.preventDefault()}>
       <div className={styles.inputWrapper}>
@@ -75,14 +71,9 @@ export function Form(props: AssertionFormProps) {
           addErrorMessage={setBondError}
           removeErrorMessage={() => setBondError("")}
         />
-        {bondInputError !== "" && (
-          <p className={styles.error}>{bondInputError}</p>
-        )}
-        {bondIsTooLow && minimumBond !== undefined && (
-          <p className={styles.error}>
-            Bond must be at least {formatUnits(minimumBond, decimals)}{" "}
-            {currencySymbol} on {chainName}
-          </p>
+        {!!bondInputError && <p className={styles.error}>{bondInputError}</p>}
+        {!!bondIsTooLowError && (
+          <p className={styles.error}>{bondIsTooLowError}</p>
         )}
       </div>
       <div className={styles.inputWrapper}>
@@ -99,18 +90,20 @@ export function Form(props: AssertionFormProps) {
           onSelect={setChallengePeriod}
         />
       </div>
-      {!!decimals &&
-        !!userAddress &&
-        !!currencyAddress &&
-        !!oracleAddress &&
-        !bondInputError &&
-        !bondIsTooLow && (
-          <ActionButton
-            {...props}
-            userAddress={userAddress}
-            currencyAddress={currencyAddress}
-          />
-        )}
+      <div
+        style={{
+          width: "fit-content",
+          marginLeft: "auto",
+        }}
+      >
+        <FormButton
+          delegatedProps={props}
+          isConnected={isConnected}
+          userAddress={userAddress}
+          currencyAddress={currencyAddress}
+          errors={errors}
+        />
+      </div>
     </form>
   );
 }

@@ -6,7 +6,7 @@ import { Oval } from "react-loader-spinner";
 type OvalProps = ComponentPropsWithoutRef<typeof Oval>;
 
 type Props = OvalProps & {
-  variant?: "red" | "black";
+  variant?: "red" | "black" | "white";
 };
 export function LoadingSpinner({
   variant = "red",
@@ -19,11 +19,15 @@ export function LoadingSpinner({
 }: Props) {
   const _color = color
     ? color
+    : variant === "white"
+    ? "var(--white)"
     : variant === "red"
     ? "var(--red-500)"
     : "var(--blue-grey-700)";
   const _secondaryColor = secondaryColor
     ? secondaryColor
+    : variant === "white"
+    ? "var(--white-opacity-50)"
     : variant === "red"
     ? "var(--red-500-opacity-50)"
     : "var(--blue-grey-700-opacity-50)";

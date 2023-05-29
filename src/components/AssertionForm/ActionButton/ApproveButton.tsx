@@ -6,8 +6,8 @@ import {
   usePrepareContractWrite,
   useWaitForTransaction,
 } from "wagmi";
+import { TooltipButton } from "../../TooltipButton";
 import type { ActionButtonProps } from "./ActionButton";
-import { TooltipButton } from "./TooltipButton";
 
 export function ApproveButton(props: ActionButtonProps) {
   const { approve, disabled, tooltipContent } = useApproveButton(props);

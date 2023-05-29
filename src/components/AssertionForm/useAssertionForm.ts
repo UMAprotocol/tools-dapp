@@ -1,4 +1,5 @@
 import {
+  chainsById,
   challengePeriods,
   currenciesByChain,
   oov3AddressesByChainId,
@@ -14,7 +15,7 @@ import { useAccount, useNetwork, useToken } from "wagmi";
 export type AssertionFormProps = ReturnType<typeof useAssertionForm>;
 
 export function useAssertionForm() {
-  const { address: userAddress } = useAccount();
+  const { address: userAddress, isConnected } = useAccount();
   const { chain } = useNetwork();
   const chainId = (chain?.id ?? 1) as ChainId;
 
@@ -54,6 +55,15 @@ export function useAssertionForm() {
   const bondBigInt = BigInt(parseUnits(bond as `${number}`, decimals));
   const bondFormatted = formatUnits(bondBigInt, decimals);
   const challengePeriodBigInt = BigInt(challengePeriod.value);
+  const chainName = chainsById[chainId];
+  const bondIsTooLowError =
+    bondIsTooLow && minimumBond !== undefined
+      ? `Bond must be at least ${formatUnits(minimumBond, decimals)} 
+  ${currencySymbol} on ${chainName}`
+      : undefined;
+  const errors = [claimError, bondInputError, bondIsTooLowError].filter(
+    Boolean
+  );
 
   useEffect(() => {
     if (minimumBond !== undefined && bondBigInt < minimumBond) {
@@ -99,6 +109,7 @@ export function useAssertionForm() {
 
   return {
     chainId,
+    chainName,
     claim,
     claimError,
     currencies,
@@ -115,9 +126,12 @@ export function useAssertionForm() {
     bondFormatted,
     bondInputError,
     bondIsTooLow,
+    bondIsTooLowError,
     userAddress,
+    isConnected,
     currencyAddress,
     oracleAddress,
+    errors,
     setClaim,
     setCurrency,
     setBond,

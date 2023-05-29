@@ -7,8 +7,8 @@ import {
   usePrepareContractWrite,
   useWaitForTransaction,
 } from "wagmi";
+import { TooltipButton } from "../../TooltipButton";
 import type { ActionButtonProps } from "./ActionButton";
-import { TooltipButton } from "./TooltipButton";
 
 export function SubmitButton(props: ActionButtonProps) {
   const { disabled, submitAssertion, tooltipContent } = useSubmitButton(props);
