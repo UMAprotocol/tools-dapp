@@ -9,8 +9,8 @@ import {
 } from "wagmi";
 import type { ActionButtonProps } from "./ActionButton";
 
-export function SubmitButton(props: ActionButtonProps) {
-  const { disabled, submitAssertion, tooltipContent } = useSubmitButton(props);
+export function AssertButton(props: ActionButtonProps) {
+  const { disabled, submitAssertion, tooltipContent } = useAssertButton(props);
   return (
     <TooltipButton
       disabled={disabled}
@@ -22,7 +22,7 @@ export function SubmitButton(props: ActionButtonProps) {
   );
 }
 
-function useSubmitButton(props: ActionButtonProps) {
+function useAssertButton(props: ActionButtonProps) {
   const {
     claim,
     chainId,

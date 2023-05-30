@@ -3,7 +3,7 @@ import type { ChainId } from "@/types";
 import type { Address } from "wagmi";
 import styles from "./ActionButton.module.css";
 import { ApproveButton } from "./ApproveButton";
-import { SubmitButton } from "./SubmitButton";
+import { AssertButton } from "./AssertButton";
 
 export type ActionButtonDelegatedProps = {
   userAddress: Address;
@@ -23,8 +23,8 @@ export function ActionButton(delegatedProps: ActionButtonDelegatedProps) {
   const { hasApproved } = props;
 
   return (
-    <div className={styles.submitButtonWrapper}>
-      {hasApproved ? <SubmitButton {...props} /> : <ApproveButton {...props} />}
+    <div className={styles.actionButtonWrapper}>
+      {hasApproved ? <AssertButton {...props} /> : <ApproveButton {...props} />}
     </div>
   );
 }

@@ -1,9 +1,9 @@
-.submitButtonWrapper {
+.actionButtonWrapper {
   margin-left: auto;
   width: fit-content;
 }
 
-.submitButtonWrapper[aria-disabled="true"] {
+.actionButtonWrapper[aria-disabled="true"] {
   cursor: not-allowed;
 }
 
