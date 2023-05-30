@@ -75,6 +75,20 @@ export function Form(props: AssertionFormProps) {
     );
   }
 
+  function getInfoIconStyle(...errors: MaybeErrors) {
+    const normalIconStrokeColor = "var(--dark-text)";
+    const errorIconStrokeColor = "var(--error-red)";
+    return {
+      stroke: getMaybeErrorColor(
+        {
+          normalColor: normalIconStrokeColor,
+          errorColor: errorIconStrokeColor,
+        },
+        ...errors
+      ),
+    };
+  }
+
   function getMaybeErrorColor(
     { normalColor, errorColor }: { normalColor: string; errorColor: string },
     ...errors: (string | undefined)[]
@@ -93,7 +107,9 @@ export function Form(props: AssertionFormProps) {
           }}
         >
           Assertion Claim:{" "}
-          <InfoIcon>Assert that something in the world is true.</InfoIcon>
+          <InfoIcon style={getInfoIconStyle(claimError)}>
+            Assert that something in the world is true.
+          </InfoIcon>
         </label>
         <TextArea
           id="claim"
@@ -126,7 +142,7 @@ export function Form(props: AssertionFormProps) {
           }}
         >
           Bond Amount:{" "}
-          <InfoIcon>
+          <InfoIcon style={getInfoIconStyle(bondInputError, bondIsTooLowError)}>
             The amount of currency you are willing to stake on this assertion.
           </InfoIcon>
         </label>
