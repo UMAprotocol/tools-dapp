@@ -1,5 +1,7 @@
-import type { ChangeEvent } from "react";
+import type { ChangeEvent, ComponentPropsWithoutRef } from "react";
 import styles from "./DecimalInput.module.css";
+
+type InputProps = Omit<ComponentPropsWithoutRef<"input">, "onInput">;
 
 type DecimalInput = {
   onInput: (value: string) => void;
@@ -67,7 +69,7 @@ export function useHandleDecimalInput({
   };
 }
 
-interface Props {
+type Props = InputProps & {
   value: string;
   onInput: (value: string) => void;
   onClear?: () => void;
@@ -79,7 +81,7 @@ interface Props {
   allowNegative?: boolean;
   required?: boolean;
   id?: string;
-}
+};
 /**
  * A component for entering decimal values.
  * @param value The current value of the input.
@@ -102,6 +104,7 @@ export function DecimalInput({
   allowNegative = true,
   required,
   id,
+  ...delegated
 }: Props) {
   const onChange = useHandleDecimalInput({
     onInput,
@@ -118,7 +121,8 @@ export function DecimalInput({
 
   return (
     <input
-      value={value ?? undefined}
+      {...delegated}
+      value={value}
       onChange={onChange}
       type="number"
       step={makeStep()}

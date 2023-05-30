@@ -1,7 +1,5 @@
-import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { ConnectButton, ErrorButton, LoadingButton } from "@/components";
 import type { Address } from "viem";
-import { ErrorButton } from "../ErrorButton";
-import { LoadingButton } from "../LoadingButton";
 import { ActionButton } from "./ActionButton/ActionButton";
 import type { AssertionFormProps } from "./useAssertionForm";
 
@@ -19,9 +17,9 @@ export function FormButton({
   currencyAddress,
   errors,
 }: Props) {
+  if (!isConnected) return <ConnectButton />;
   if (errors.length > 0)
     return <ErrorButton errors={errors}>Submit</ErrorButton>;
-  if (!isConnected) return <ConnectButton />;
   if (!userAddress || !currencyAddress) return <LoadingButton />;
   return (
     <ActionButton

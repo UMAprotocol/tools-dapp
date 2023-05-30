@@ -15,5 +15,5 @@
 
 .error {
   margin-top: 8px;
-  color: var(--red-500);
+  color: var(--error-red);
 }

@@ -33,7 +33,7 @@ export function useAssertionForm() {
     enabled: !!USDC,
   });
   const currenciesData = { weth, dai, usdc };
-  const [claim, setClaim] = useState("");
+  const [claim, setClaim] = useState("I assert that...");
   const [claimError, setClaimError] = useState("");
   const [bond, setBond] = useState("1");
   const [bondInputError, setBondInputError] = useState("");

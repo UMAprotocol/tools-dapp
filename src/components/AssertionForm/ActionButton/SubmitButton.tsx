@@ -1,5 +1,5 @@
 import { oov3Abi } from "@/abis";
-import { useNotifications } from "@/components";
+import { TooltipButton, useNotifications } from "@/components";
 import { useEffect } from "react";
 import { stringToHex, zeroAddress } from "viem";
 import {
@@ -7,7 +7,6 @@ import {
   usePrepareContractWrite,
   useWaitForTransaction,
 } from "wagmi";
-import { TooltipButton } from "../../TooltipButton";
 import type { ActionButtonProps } from "./ActionButton";
 
 export function SubmitButton(props: ActionButtonProps) {

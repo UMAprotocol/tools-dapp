@@ -26,10 +26,72 @@ export function Form(props: AssertionFormProps) {
     setChallengePeriod,
   } = props;
 
+  type MaybeErrors = (string | undefined)[];
+
+  function getInputStyle(...errors: MaybeErrors) {
+    return {
+      color: getInputTextColor(...errors),
+      backgroundColor: getInputBackgroundColor(...errors),
+      borderColor: getInputBorderColor(...errors),
+    };
+  }
+
+  function getInputTextColor(...errors: MaybeErrors) {
+    const normalTextColor = "var(--dark-text)";
+    const errorTextColor = "var(--error-red)";
+
+    return getMaybeErrorColor(
+      {
+        normalColor: normalTextColor,
+        errorColor: errorTextColor,
+      },
+      ...errors
+    );
+  }
+
+  function getInputBackgroundColor(...errors: MaybeErrors) {
+    const normalBackgroundColor = "var(--white)";
+    const errorBackgroundColor = "var(--red-500-opacity-5)";
+
+    return getMaybeErrorColor(
+      {
+        normalColor: normalBackgroundColor,
+        errorColor: errorBackgroundColor,
+      },
+      ...errors
+    );
+  }
+
+  function getInputBorderColor(...errors: MaybeErrors) {
+    const normalBorderColor = "var(--dark-text)";
+    const errorBorderColor = "var(--error-red)";
+
+    return getMaybeErrorColor(
+      {
+        normalColor: normalBorderColor,
+        errorColor: errorBorderColor,
+      },
+      ...errors
+    );
+  }
+
+  function getMaybeErrorColor(
+    { normalColor, errorColor }: { normalColor: string; errorColor: string },
+    ...errors: (string | undefined)[]
+  ) {
+    return errors.some((e) => !!e && e.length !== 0) ? errorColor : normalColor;
+  }
+
   return (
     <form className={styles.form} onSubmit={(e) => e.preventDefault()}>
       <div className={styles.inputWrapper}>
-        <label htmlFor="claim" className={styles.label}>
+        <label
+          htmlFor="claim"
+          className={styles.label}
+          style={{
+            color: getInputTextColor(claimError),
+          }}
+        >
           Assertion Claim:{" "}
           <InfoIcon>Assert that something in the world is true.</InfoIcon>
         </label>
@@ -37,7 +99,8 @@ export function Form(props: AssertionFormProps) {
           id="claim"
           value={claim}
           onChange={(e) => setClaim(e.target.value)}
-          placeholder="I assert that..."
+          required
+          style={getInputStyle(claimError)}
         />
         {claimError !== "" && <p className={styles.error}>{claimError}</p>}
       </div>
@@ -55,7 +118,13 @@ export function Form(props: AssertionFormProps) {
         />
       </div>
       <div className={styles.inputWrapper}>
-        <label htmlFor="bond" className={styles.label}>
+        <label
+          htmlFor="bond"
+          className={styles.label}
+          style={{
+            color: getInputTextColor(bondInputError, bondIsTooLowError),
+          }}
+        >
           Bond Amount:{" "}
           <InfoIcon>
             The amount of currency you are willing to stake on this assertion.
@@ -69,7 +138,9 @@ export function Form(props: AssertionFormProps) {
           required={true}
           onInput={setBond}
           addErrorMessage={setBondError}
+          placeholder=""
           removeErrorMessage={() => setBondError("")}
+          style={getInputStyle(bondInputError, bondIsTooLowError)}
         />
         {!!bondInputError && <p className={styles.error}>{bondInputError}</p>}
         {!!bondIsTooLowError && (

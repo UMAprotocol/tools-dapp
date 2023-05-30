@@ -2,7 +2,9 @@
   --green-500: hsla(133, 68%, 39%, 1); /* #20a73d */
   --red-100: hsla(0, 100%, 96%, 1); /* #FFEBEB */
   --red-500: hsla(0, 100%, 65%, 1); /* #ff4d4d */
+  --error-red: rgb(221, 57, 57); /* #ff4d4d */
   --red-500-opacity-50: hsla(0, 100%, 65%, 0.5); /* #ff4d4d */
+  --red-500-opacity-5: hsla(0, 100%, 65%, 0.05); /* #ff4d4d */
   --red-600: hsla(0, 79%, 59%, 1); /* #E94444 */
   --grey-50: hsla(0, 0%, 99%, 1); /* #fdfdfd */
   --grey-100: hsla(0, 0%, 98%, 1); /* #fafafa */
