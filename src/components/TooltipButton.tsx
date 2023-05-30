@@ -14,9 +14,9 @@ export function TooltipButton({
   onClick,
 }: Props) {
   return (
-    <Tooltip content={tooltipContent}>
+    <Tooltip content={tooltipContent} disabled={disabled}>
       <Button disabled={disabled} onClick={onClick}>
-        <span>{children}</span>
+        {children}
       </Button>
     </Tooltip>
   );

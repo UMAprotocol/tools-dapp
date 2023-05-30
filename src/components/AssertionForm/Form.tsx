@@ -152,6 +152,7 @@ export function Form(props: AssertionFormProps) {
           maxDecimals={decimals}
           allowNegative={false}
           required={true}
+          requiredErrorMessage="You must have a bond to make an assertion"
           onInput={setBond}
           addErrorMessage={setBondError}
           placeholder=""
