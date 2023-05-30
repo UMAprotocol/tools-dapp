@@ -91,7 +91,7 @@ export function Form(props: AssertionFormProps) {
 
   function getMaybeErrorColor(
     { normalColor, errorColor }: { normalColor: string; errorColor: string },
-    ...errors: (string | undefined)[]
+    ...errors: MaybeErrors
   ) {
     return errors.some((e) => !!e && e.length !== 0) ? errorColor : normalColor;
   }
