@@ -1,8 +1,9 @@
 import type { ChainId, Currency } from "@/types";
+import type { Address } from "wagmi";
 
 export const currenciesByChain: Record<
   ChainId,
-  Record<Currency, `0x${string}`>
+  { [key in Currency]?: Address }
 > = {
   1: {
     WETH: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
@@ -11,8 +12,6 @@ export const currenciesByChain: Record<
   },
   5: {
     WETH: "0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6",
-    USDC: "0x2f3A40A3db8a7e3D09B0adfEfbCe4f6F81927557",
-    DAI: "0x11fE4B6AE13d2a6055C8D9cF65c55bac32B5d844",
   },
   10: {
     WETH: "0x4200000000000000000000000000000000000006",

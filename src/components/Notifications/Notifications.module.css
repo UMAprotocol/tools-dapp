@@ -1,0 +1,16 @@
+.viewport {
+  pointer-events: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  width: min(344px, 100%);
+  height: fit-content;
+  padding-left: 24px;
+  padding-top: 24px;
+  list-style: none;
+}
+
+.viewport > * {
+  margin-bottom: 24px;
+}

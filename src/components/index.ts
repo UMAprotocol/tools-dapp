@@ -5,6 +5,8 @@ export { ConnectButton } from "./ConnectButton";
 export { DecimalInput } from "./DecimalInput";
 export { Header } from "./Header";
 export { InfoIcon } from "./InfoIcon";
+export { LoadingSpinner } from "./LoadingSpinner";
+export * from "./Notifications";
 export { RadioDropdown } from "./RadioDropdown";
 export { RedLink } from "./RedLink";
 export { SideBar } from "./SideBar/SideBar";

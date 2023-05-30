@@ -1,23 +1,32 @@
 import { oov3Abi } from "@/abis";
-import { Button, Tooltip } from "@/components";
+import { useNotifications } from "@/components";
+import { useEffect } from "react";
 import { stringToHex, zeroAddress } from "viem";
-import { useContractWrite, usePrepareContractWrite } from "wagmi";
+import {
+  useContractWrite,
+  usePrepareContractWrite,
+  useWaitForTransaction,
+} from "wagmi";
 import type { ActionButtonProps } from "./ActionButton";
+import { TooltipButton } from "./TooltipButton";
 
 export function SubmitButton(props: ActionButtonProps) {
   const { disabled, submitAssertion, tooltipContent } = useSubmitButton(props);
   return (
-    <Tooltip content={tooltipContent}>
-      <Button disabled={disabled} onClick={submitAssertion}>
-        <span>Submit</span>
-      </Button>
-    </Tooltip>
+    <TooltipButton
+      disabled={disabled}
+      onClick={submitAssertion}
+      tooltipContent={tooltipContent}
+    >
+      Submit
+    </TooltipButton>
   );
 }
 
 function useSubmitButton(props: ActionButtonProps) {
   const {
     claim,
+    chainId,
     bondBigInt,
     challengePeriodBigInt,
     insufficientFunds,
@@ -28,16 +37,16 @@ function useSubmitButton(props: ActionButtonProps) {
     currencySymbol,
     oracleAddress,
   } = props;
+  const { addNotification } = useNotifications();
   const hasClaim = claim.length > 0;
   const balanceFormatted = balance?.formatted ?? "0";
-  const disabled = !hasClaim || insufficientFunds;
 
   const { config } = usePrepareContractWrite({
     address: oracleAddress,
     abi: oov3Abi,
     functionName: "assertTruth",
     args: [
-      stringToHex(claim, { size: 32 }),
+      stringToHex(claim),
       userAddress,
       zeroAddress,
       zeroAddress,
@@ -49,11 +58,30 @@ function useSubmitButton(props: ActionButtonProps) {
     ],
   });
 
-  const { write } = useContractWrite(config);
+  const { data, write } = useContractWrite(config);
+
+  const { isLoading } = useWaitForTransaction({
+    hash: data?.hash,
+  });
+
+  useEffect(() => {
+    if (data?.hash) {
+      addNotification({
+        type: "assert",
+        hash: data.hash,
+        chainId,
+        claim,
+      });
+    }
+  }, [data?.hash, addNotification, chainId, claim]);
 
   const tooltipContent = getTooltipContent();
+  const disabled = !hasClaim || insufficientFunds || isLoading;
 
   function getTooltipContent() {
+    if (isLoading) {
+      return "Submitting assertion...";
+    }
     if (!hasClaim) {
       return "Please enter a claim to submit";
     }

@@ -1,10 +1,17 @@
-import { Header, SideBar, WalletConfig } from "@/components";
+import {
+  Header,
+  Notifications,
+  NotificationsProvider,
+  SideBar,
+  WalletConfig,
+} from "@/components";
 import { halyard } from "@/constants";
 import "@rainbow-me/rainbowkit/styles.css";
 import "./style/animation.css";
 import "./style/colors.css";
 import "./style/containers.css";
 import "./style/fonts.css";
+import "./style/shadows.css";
 import "./style/globals.css";
 
 export const metadata = {
@@ -21,9 +28,12 @@ export default function RootLayout({
     <html lang="en" className={halyard.variable}>
       <body>
         <WalletConfig>
-          <Header />
-          <SideBar />
-          {children}
+          <NotificationsProvider>
+            <Header />
+            <SideBar />
+            {children}
+            <Notifications />
+          </NotificationsProvider>
         </WalletConfig>
       </body>
     </html>

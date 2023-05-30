@@ -2,12 +2,16 @@
 
 import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { configureChains, createConfig, WagmiConfig } from "wagmi";
-import { goerli, mainnet } from "wagmi/chains";
+import { arbitrum, goerli, mainnet, optimism, polygon } from "wagmi/chains";
+import { infuraProvider } from "wagmi/providers/infura";
 import { publicProvider } from "wagmi/providers/public";
 
 const { chains, publicClient } = configureChains(
-  [mainnet, goerli],
-  [publicProvider()]
+  [mainnet, goerli, polygon, optimism, arbitrum],
+  [
+    infuraProvider({ apiKey: process.env.NEXT_PUBLIC_INFURA_KEY }),
+    publicProvider(),
+  ]
 );
 
 const { connectors } = getDefaultWallets({

@@ -6,6 +6,7 @@ import {
 import { useMinimumBond } from "@/hooks";
 import type { ChainId, DropdownItem } from "@/types";
 import { useEffect, useState } from "react";
+import type { Address } from "viem";
 import { formatUnits, parseUnits } from "viem";
 import { useAccount, useNetwork, useToken } from "wagmi";
 
@@ -17,9 +18,18 @@ export function useAssertionForm() {
   const chainId = (chain?.id ?? 1) as ChainId;
 
   const { WETH, DAI, USDC } = currenciesByChain[chainId] ?? {};
-  const { data: weth } = useToken({ address: WETH });
-  const { data: dai } = useToken({ address: DAI });
-  const { data: usdc } = useToken({ address: USDC });
+  const { data: weth } = useToken({
+    address: WETH as Address,
+    enabled: !!WETH,
+  });
+  const { data: dai } = useToken({
+    address: DAI as Address,
+    enabled: !!DAI,
+  });
+  const { data: usdc } = useToken({
+    address: USDC as Address,
+    enabled: !!USDC,
+  });
   const currenciesData = { weth, dai, usdc };
   const [claim, setClaim] = useState("");
   const [bond, setBond] = useState("1");

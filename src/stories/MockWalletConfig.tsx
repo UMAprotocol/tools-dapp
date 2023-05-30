@@ -20,7 +20,7 @@ function mockWagmiConfigFactory({
       },
       walletClient: createWalletClient({
         account: "0x718648C8c531F91b528A7757dD2bE813c3940608",
-        transport: http(process.env.INFURA_URL ?? ""),
+        transport: http(process.env.NEXT_PUBLIC_INFURA_URL),
       }),
     },
   });
