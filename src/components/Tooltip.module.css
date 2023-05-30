@@ -60,6 +60,15 @@
   animation-name: slideRightAndFade;
 }
 
-.trigger button :is(:disabled) {
+.trigger[aria-disabled="true"] {
+  cursor: not-allowed;
+}
+
+.trigger:disabled {
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+.trigger button:disabled {
   pointer-events: none;
 }

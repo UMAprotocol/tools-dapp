@@ -2,19 +2,28 @@
 
 import * as RadixTooltip from "@radix-ui/react-tooltip";
 import styles from "./Tooltip.module.css";
-interface Props {
+type Props = {
   children: React.ReactNode;
   content: React.ReactNode | undefined;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
-}
-export function Tooltip({ children, content, open, onOpenChange }: Props) {
+  disabled?: boolean;
+};
+export function Tooltip({
+  children,
+  content,
+  open,
+  onOpenChange,
+  disabled,
+}: Props) {
   if (!content) return <>{children}</>;
   return (
     <RadixTooltip.Provider delayDuration={100}>
       <RadixTooltip.Root open={open} onOpenChange={onOpenChange}>
-        <RadixTooltip.Trigger asChild className={styles.trigger}>
-          <span>{children}</span>
+        <RadixTooltip.Trigger asChild>
+          <span className={styles.trigger} aria-disabled={disabled}>
+            {children}
+          </span>
         </RadixTooltip.Trigger>
         <RadixTooltip.Portal>
           <RadixTooltip.Content

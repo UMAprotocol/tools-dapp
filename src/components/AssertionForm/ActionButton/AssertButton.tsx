@@ -1,5 +1,5 @@
 import { oov3Abi } from "@/abis";
-import { useNotifications } from "@/components";
+import { TooltipButton, useNotifications } from "@/components";
 import { useEffect } from "react";
 import { stringToHex, zeroAddress } from "viem";
 import {
@@ -8,10 +8,9 @@ import {
   useWaitForTransaction,
 } from "wagmi";
 import type { ActionButtonProps } from "./ActionButton";
-import { TooltipButton } from "./TooltipButton";
 
-export function SubmitButton(props: ActionButtonProps) {
-  const { disabled, submitAssertion, tooltipContent } = useSubmitButton(props);
+export function AssertButton(props: ActionButtonProps) {
+  const { disabled, submitAssertion, tooltipContent } = useAssertButton(props);
   return (
     <TooltipButton
       disabled={disabled}
@@ -23,7 +22,7 @@ export function SubmitButton(props: ActionButtonProps) {
   );
 }
 
-function useSubmitButton(props: ActionButtonProps) {
+function useAssertButton(props: ActionButtonProps) {
   const {
     claim,
     chainId,

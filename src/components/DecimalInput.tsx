@@ -1,31 +1,33 @@
-import type { ChangeEvent } from "react";
+import type { ChangeEvent, ComponentPropsWithoutRef } from "react";
 import styles from "./DecimalInput.module.css";
+
+type InputProps = Omit<ComponentPropsWithoutRef<"input">, "onInput">;
 
 type DecimalInput = {
   onInput: (value: string) => void;
   addErrorMessage: (errorMessage: string) => void;
   removeErrorMessage: (errorMessage: string) => void;
-  maxDecimals: number;
-  allowNegative: boolean;
+  maxDecimals?: number;
+  allowNegative?: boolean;
+  required?: boolean;
+  requiredErrorMessage?: string;
 };
-/**
- * This hook is used to handle decimal inputs. It will add an error message if the user tries to enter a number with more than the specified number of decimals, or if the user tries to enter a negative number when `allowNegative` is set to false.
- * @param onInput A callback function that is called with the input value as a string.
- * @param addErrorMessage A callback function that is called with an error message to add to the error message array.
- * @param removeErrorMessage A callback function that is called with an error message to remove from the error message array.
- * @param maxDecimals The maximum number of decimals allowed.
- * @param allowNegative Whether or not to allow negative numbers.
- * @returns A function that should be called on the `onChange` event of the input.
- */
 export function useHandleDecimalInput({
   onInput,
   addErrorMessage,
   removeErrorMessage,
-  maxDecimals,
-  allowNegative,
+  maxDecimals = 18,
+  allowNegative = true,
+  required,
+  requiredErrorMessage,
 }: DecimalInput) {
   return (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
+    if (required && value === "") {
+      onInput(value);
+      addErrorMessage(requiredErrorMessage ?? "This field is required");
+      return;
+    }
 
     const noNegativeNumbersErrorMessage = "Negative numbers are not allowed";
 
@@ -60,29 +62,7 @@ export function useHandleDecimalInput({
   };
 }
 
-interface Props {
-  value: string;
-  onInput: (value: string) => void;
-  onClear?: () => void;
-  addErrorMessage: (message: string) => void;
-  removeErrorMessage: () => void;
-  disabled?: boolean;
-  placeholder?: string;
-  maxDecimals?: number;
-  allowNegative?: boolean;
-  id?: string;
-}
-/**
- * A component for entering decimal values.
- * @param value The current value of the input.
- * @param onInput A callback to be called when the input value changes.
- * @param addErrorMessage A callback to be called when an error message should be displayed.
- * @param removeErrorMessage A callback to be called when an error message should be removed.
- * @param disabled Whether the input should be disabled.
- * @param placeholder The placeholder text to display when the input is empty.
- * @param maxDecimals The maximum number of decimal places to allow.
- * @param allowNegative Whether to allow negative values.
- */
+type Props = InputProps & DecimalInput;
 export function DecimalInput({
   value,
   onInput,
@@ -92,7 +72,10 @@ export function DecimalInput({
   placeholder,
   maxDecimals = 18,
   allowNegative = true,
+  required,
+  requiredErrorMessage,
   id,
+  ...delegated
 }: Props) {
   const onChange = useHandleDecimalInput({
     onInput,
@@ -100,6 +83,8 @@ export function DecimalInput({
     removeErrorMessage,
     maxDecimals,
     allowNegative,
+    required,
+    requiredErrorMessage,
   });
 
   function makeStep() {
@@ -108,7 +93,8 @@ export function DecimalInput({
 
   return (
     <input
-      value={value ?? undefined}
+      {...delegated}
+      value={value}
       onChange={onChange}
       type="number"
       step={makeStep()}
@@ -121,6 +107,7 @@ export function DecimalInput({
       spellCheck="false"
       className={styles.input}
       id={id}
+      required={required}
     />
   );
 }

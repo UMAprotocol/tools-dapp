@@ -1,4 +1,4 @@
-import { useNotifications } from "@/components";
+import { TooltipButton, useNotifications } from "@/components";
 import { useEffect } from "react";
 import {
   erc20ABI,
@@ -7,7 +7,6 @@ import {
   useWaitForTransaction,
 } from "wagmi";
 import type { ActionButtonProps } from "./ActionButton";
-import { TooltipButton } from "./TooltipButton";
 
 export function ApproveButton(props: ActionButtonProps) {
   const { approve, disabled, tooltipContent } = useApproveButton(props);
@@ -59,7 +58,9 @@ function useApproveButton(props: ActionButtonProps) {
     }
   }, [data?.hash, addNotification, chainId, bondFormatted, currencySymbol]);
 
-  const tooltipContent = isLoading ? "Approving..." : undefined;
+  const tooltipContent = isLoading
+    ? "Approving..."
+    : "You must approve spending the bond amount before submitting your assertion.";
 
   return {
     ...props,

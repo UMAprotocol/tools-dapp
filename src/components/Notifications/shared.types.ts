@@ -1,8 +1,9 @@
 import type { ChainId } from "@/types";
+import type { Hash } from "viem";
 
 export type BaseNotification = {
   type: "approve" | "assert";
-  hash: `0x${string}`;
+  hash: Hash;
   chainId: ChainId;
 };
 

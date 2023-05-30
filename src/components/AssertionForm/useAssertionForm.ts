@@ -1,4 +1,5 @@
 import {
+  chainsById,
   challengePeriods,
   currenciesByChain,
   oov3AddressesByChainId,
@@ -6,6 +7,7 @@ import {
 import { useMinimumBond } from "@/hooks";
 import type { ChainId, DropdownItem } from "@/types";
 import { useEffect, useState } from "react";
+import { useUpdateEffect } from "usehooks-ts";
 import type { Address } from "viem";
 import { formatUnits, parseUnits } from "viem";
 import { useAccount, useNetwork, useToken } from "wagmi";
@@ -13,7 +15,7 @@ import { useAccount, useNetwork, useToken } from "wagmi";
 export type AssertionFormProps = ReturnType<typeof useAssertionForm>;
 
 export function useAssertionForm() {
-  const { address: userAddress } = useAccount();
+  const { address: userAddress, isConnected } = useAccount();
   const { chain } = useNetwork();
   const chainId = (chain?.id ?? 1) as ChainId;
 
@@ -31,9 +33,11 @@ export function useAssertionForm() {
     enabled: !!USDC,
   });
   const currenciesData = { weth, dai, usdc };
-  const [claim, setClaim] = useState("");
+  const [claim, setClaim] = useState("I assert that...");
+  const [claimError, setClaimError] = useState("");
   const [bond, setBond] = useState("1");
-  const [bondError, setBondError] = useState("");
+  const [bondInputError, setBondInputError] = useState("");
+  const [bondIsTooLow, setBondIsTooLow] = useState(false);
   const [challengePeriod, setChallengePeriod] = useState<DropdownItem>(
     challengePeriods[2]
   );
@@ -51,25 +55,44 @@ export function useAssertionForm() {
   const bondBigInt = BigInt(parseUnits(bond as `${number}`, decimals));
   const bondFormatted = formatUnits(bondBigInt, decimals);
   const challengePeriodBigInt = BigInt(challengePeriod.value);
+  const chainName = chainsById[chainId];
+  const bondIsTooLowError =
+    bondIsTooLow && minimumBond !== undefined
+      ? `Bond must be at least ${formatUnits(minimumBond, decimals)} 
+  ${currencySymbol} on ${chainName}`
+      : undefined;
+  const errors = [claimError, bondInputError, bondIsTooLowError].filter(
+    Boolean
+  );
 
   useEffect(() => {
-    if (!currencyDetails?.symbol || !minimumBond) return;
-    if (bondBigInt < minimumBond) {
-      setBondError(
-        `Bond must be at least ${formatUnits(minimumBond, decimals)} ${
-          currencyDetails.symbol
-        }`
-      );
-    } else {
-      setBondError("");
+    if (minimumBond !== undefined && bondBigInt < minimumBond) {
+      setBondIsTooLow(true);
+      return;
     }
-  }, [minimumBond, bond, currencyDetails?.symbol, bondBigInt, decimals]);
+    setBondIsTooLow(false);
+  }, [bondBigInt, minimumBond]);
 
   useEffect(() => {
     if (!!currencies && !currency) {
       setCurrency(currencies[0]);
     }
   }, [currencies, currency]);
+
+  useUpdateEffect(() => {
+    if (claim === "") {
+      setClaimError("Claim is required");
+      return;
+    }
+    setClaimError("");
+  }, [claim]);
+
+  // only weth is supported on goerli, so switch to it if the user is on goerli
+  useEffect(() => {
+    if (chainId === 5) {
+      setCurrency(currencies[0]);
+    }
+  }, [chainId, currencies]);
 
   function makeCurrencyDropdownOptions() {
     return Object.entries(currenciesData)
@@ -86,7 +109,9 @@ export function useAssertionForm() {
 
   return {
     chainId,
+    chainName,
     claim,
+    claimError,
     currencies,
     challengePeriods,
     challengePeriod,
@@ -95,17 +120,22 @@ export function useAssertionForm() {
     currencySymbol,
     currencyDetails,
     decimals,
+    minimumBond,
     bond,
     bondBigInt,
     bondFormatted,
-    bondError,
+    bondInputError,
+    bondIsTooLow,
+    bondIsTooLowError,
     userAddress,
+    isConnected,
     currencyAddress,
     oracleAddress,
+    errors,
     setClaim,
     setCurrency,
     setBond,
-    setBondError,
+    setBondError: setBondInputError,
     setChallengePeriod,
   };
 }
