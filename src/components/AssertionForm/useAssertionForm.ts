@@ -7,7 +7,7 @@ import {
 import { truncateDecimalString } from "@/helpers";
 import { useBalanceAndAllowance, useMinimumBond } from "@/hooks";
 import type { ChainId, ChainName, DropdownItem } from "@/types";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useUpdateEffect } from "usehooks-ts";
 import type { Address } from "viem";
 import { formatUnits, parseUnits } from "viem";
@@ -21,7 +21,10 @@ function useChain() {
   const chainName = chainsById[chainId];
   const oracleAddress = oov3AddressesByChainId[chainId];
 
-  return { chainId, chainName, oracleAddress };
+  return useMemo(
+    () => ({ chainId, chainName, oracleAddress }),
+    [chainId, chainName, oracleAddress]
+  );
 }
 
 function useCurrency({ chainId }: { chainId: ChainId }) {
@@ -41,9 +44,25 @@ function useCurrency({ chainId }: { chainId: ChainId }) {
     enabled: !!USDC,
   });
 
-  const currenciesWithTokenData = { weth, dai, usdc };
+  const currenciesWithTokenData = useMemo(
+    () => ({ weth, dai, usdc }),
+    [dai, usdc, weth]
+  );
 
-  const currencyDropdownOptions = makeCurrencyDropdownOptions();
+  const currencyDropdownOptions = useMemo(
+    () =>
+      Object.entries(currenciesWithTokenData)
+        .map(([currency, details]) =>
+          !!details
+            ? {
+                value: currency,
+                label: `${details.name} - (${details.symbol})`,
+              }
+            : undefined
+        )
+        .filter(Boolean),
+    [currenciesWithTokenData]
+  );
 
   const currencyDetails =
     currenciesWithTokenData[
@@ -66,28 +85,25 @@ function useCurrency({ chainId }: { chainId: ChainId }) {
     }
   }, [chainId, currencyDropdownOptions]);
 
-  function makeCurrencyDropdownOptions() {
-    return Object.entries(currenciesWithTokenData)
-      .map(([currency, details]) =>
-        !!details
-          ? {
-              value: currency,
-              label: `${details.name} - (${details.symbol})`,
-            }
-          : undefined
-      )
-      .filter(Boolean);
-  }
-
-  return {
-    currencies: currencyDropdownOptions,
-    currency,
-    setCurrency,
-    currencyAddress,
-    currencyDetails,
-    currencySymbol,
-    decimals,
-  };
+  return useMemo(
+    () => ({
+      currencies: currencyDropdownOptions,
+      currency,
+      setCurrency,
+      currencyAddress,
+      currencyDetails,
+      currencySymbol,
+      decimals,
+    }),
+    [
+      currency,
+      currencyAddress,
+      currencyDetails,
+      currencyDropdownOptions,
+      currencySymbol,
+      decimals,
+    ]
+  );
 }
 
 function useClaim() {
@@ -102,7 +118,10 @@ function useClaim() {
     setClaimError("");
   }, [claim]);
 
-  return { claim, setClaim, claimError };
+  return useMemo(
+    () => ({ claim, setClaim, claimError }),
+    [claim, claimError, setClaim]
+  );
 }
 
 function useChallengePeriod() {
@@ -111,7 +130,10 @@ function useChallengePeriod() {
   );
   const challengePeriodBigInt = BigInt(challengePeriod.value);
 
-  return { challengePeriod, setChallengePeriod, challengePeriodBigInt };
+  return useMemo(
+    () => ({ challengePeriod, setChallengePeriod, challengePeriodBigInt }),
+    [challengePeriod, challengePeriodBigInt]
+  );
 }
 
 function useWalletState({
@@ -132,13 +154,16 @@ function useWalletState({
   });
   const balanceFormatted = truncateDecimalString(balance?.formatted ?? "0");
 
-  return {
-    userAddress,
-    isConnected,
-    balance: balance?.value ?? BigInt(0),
-    allowance: allowance ?? BigInt(0),
-    balanceFormatted,
-  };
+  return useMemo(
+    () => ({
+      userAddress,
+      isConnected,
+      balance: balance?.value ?? BigInt(0),
+      allowance: allowance ?? BigInt(0),
+      balanceFormatted,
+    }),
+    [userAddress, isConnected, balance, allowance, balanceFormatted]
+  );
 }
 
 function useBond({
@@ -185,20 +210,34 @@ ${currencySymbol} on ${chainName}`
     setBondIsTooLow(false);
   }, [bondBigInt, minimumBond]);
 
-  return {
-    bond,
-    bondBigInt,
-    bondFormatted,
-    minimumBond,
-    setBond,
-    bondInputError,
-    setBondInputError,
-    bondIsTooLow,
-    hasApproved,
-    insufficientFunds,
-    bondIsTooLowError,
-    insufficientFundsError,
-  };
+  return useMemo(
+    () => ({
+      bond,
+      bondBigInt,
+      bondFormatted,
+      minimumBond,
+      setBond,
+      bondInputError,
+      setBondInputError,
+      bondIsTooLow,
+      hasApproved,
+      insufficientFunds,
+      bondIsTooLowError,
+      insufficientFundsError,
+    }),
+    [
+      bond,
+      bondBigInt,
+      bondFormatted,
+      bondInputError,
+      bondIsTooLow,
+      bondIsTooLowError,
+      hasApproved,
+      insufficientFunds,
+      insufficientFundsError,
+      minimumBond,
+    ]
+  );
 }
 
 export function useAssertionForm() {
@@ -251,38 +290,73 @@ export function useAssertionForm() {
     insufficientFundsError,
   ].filter(Boolean);
 
-  return {
-    userAddress,
-    chainId,
-    chainName,
-    claim,
-    claimError,
-    currencies,
-    challengePeriods,
-    challengePeriod,
-    challengePeriodBigInt,
-    currency,
-    currencySymbol,
-    currencyDetails,
-    decimals,
-    minimumBond,
-    bond,
-    bondBigInt,
-    bondFormatted,
-    bondInputError,
-    bondIsTooLow,
-    bondIsTooLowError,
-    isConnected,
-    currencyAddress,
-    oracleAddress,
-    errors,
-    hasApproved,
-    insufficientFunds,
-    insufficientFundsError,
-    setClaim,
-    setCurrency,
-    setBond,
-    setBondInputError,
-    setChallengePeriod,
-  };
+  return useMemo(
+    () => ({
+      userAddress,
+      chainId,
+      chainName,
+      claim,
+      claimError,
+      currencies,
+      challengePeriods,
+      challengePeriod,
+      challengePeriodBigInt,
+      currency,
+      currencySymbol,
+      currencyDetails,
+      decimals,
+      minimumBond,
+      bond,
+      bondBigInt,
+      bondFormatted,
+      bondInputError,
+      bondIsTooLow,
+      bondIsTooLowError,
+      isConnected,
+      currencyAddress,
+      oracleAddress,
+      errors,
+      hasApproved,
+      insufficientFunds,
+      insufficientFundsError,
+      setClaim,
+      setCurrency,
+      setBond,
+      setBondInputError,
+      setChallengePeriod,
+    }),
+    [
+      bond,
+      bondBigInt,
+      bondFormatted,
+      bondInputError,
+      bondIsTooLow,
+      bondIsTooLowError,
+      chainId,
+      chainName,
+      challengePeriod,
+      challengePeriodBigInt,
+      claim,
+      claimError,
+      currencies,
+      currency,
+      currencyAddress,
+      currencyDetails,
+      currencySymbol,
+      decimals,
+      errors,
+      hasApproved,
+      insufficientFunds,
+      insufficientFundsError,
+      isConnected,
+      minimumBond,
+      oracleAddress,
+      setBond,
+      setBondInputError,
+      setChallengePeriod,
+      setClaim,
+      setCurrency,
+      userAddress,
+    ]
+  );
 }
