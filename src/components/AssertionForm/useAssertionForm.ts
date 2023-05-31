@@ -80,10 +80,10 @@ function useCurrency({ chainId }: { chainId: ChainId }) {
 
   // only weth is supported on goerli, so switch to it if the user is on goerli
   useEffect(() => {
-    if (chainId === 5) {
+    if (currency && !currencyDropdownOptions.includes(currency)) {
       setCurrency(currencyDropdownOptions[0]);
     }
-  }, [chainId, currencyDropdownOptions]);
+  }, [currency, currencyDropdownOptions]);
 
   return useMemo(
     () => ({
