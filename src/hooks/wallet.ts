@@ -54,9 +54,9 @@ export function useBalanceAndAllowance({
   oracleAddress,
   chainId,
 }: {
-  userAddress: Address;
-  currencyAddress: Address;
-  oracleAddress: Address;
+  userAddress: Address | undefined;
+  currencyAddress: Address | undefined;
+  oracleAddress: Address | undefined;
   chainId: ChainId;
 }) {
   const { data: balance } = useBalance({
@@ -65,13 +65,14 @@ export function useBalanceAndAllowance({
     chainId,
   });
   const { data: allowance } = useContractRead({
+    enabled: !!userAddress && !!currencyAddress && !!oracleAddress,
     address: currencyAddress,
     abi: erc20ABI,
     functionName: "allowance",
     chainId,
     // typecast is safe because hook is only enabled when these
     // values are defined (see below)
-    args: [userAddress, oracleAddress],
+    args: [userAddress as Address, oracleAddress as Address],
   });
 
   return {
