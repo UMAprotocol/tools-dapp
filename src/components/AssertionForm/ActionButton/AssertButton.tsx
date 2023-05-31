@@ -1,15 +1,16 @@
 import { oov3Abi } from "@/abis";
 import { TooltipButton, useNotifications } from "@/components";
 import { useEffect } from "react";
+import type { Address } from "viem";
 import { stringToHex, zeroAddress } from "viem";
 import {
   useContractWrite,
   usePrepareContractWrite,
   useWaitForTransaction,
 } from "wagmi";
-import type { ActionButtonDelegatedProps } from "./ActionButton";
+import type { AssertionFormProps } from "../useAssertionForm";
 
-export function AssertButton(props: ActionButtonDelegatedProps) {
+export function AssertButton(props: AssertionFormProps) {
   const { disabled, submitAssertion, tooltipContent } = useAssertButton(props);
   return (
     <TooltipButton
@@ -22,7 +23,7 @@ export function AssertButton(props: ActionButtonDelegatedProps) {
   );
 }
 
-function useAssertButton(props: ActionButtonDelegatedProps) {
+function useAssertButton(props: AssertionFormProps) {
   const {
     claim,
     chainId,
@@ -39,13 +40,14 @@ function useAssertButton(props: ActionButtonDelegatedProps) {
     address: oracleAddress,
     abi: oov3Abi,
     functionName: "assertTruth",
+    enabled: !!userAddress && !!currencyAddress,
     args: [
       stringToHex(claim),
-      userAddress,
+      userAddress as Address,
       zeroAddress,
       zeroAddress,
       challengePeriodBigInt,
-      currencyAddress,
+      currencyAddress as Address,
       bondBigInt,
       stringToHex("ASSERT_TRUTH", { size: 32 }),
       stringToHex("0x0", { size: 32 }),

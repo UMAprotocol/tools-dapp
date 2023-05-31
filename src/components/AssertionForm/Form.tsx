@@ -203,7 +203,7 @@ export function Form(props: AssertionFormProps) {
         }}
       >
         <FormButton
-          delegatedProps={props}
+          {...props}
           isConnected={isConnected}
           userAddress={userAddress}
           currencyAddress={currencyAddress}
