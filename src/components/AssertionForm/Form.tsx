@@ -1,4 +1,5 @@
 import { DecimalInput, InfoIcon, RadioDropdown, TextArea } from "@/components";
+import { makeTransparentColor } from "@/helpers";
 import styles from "./Form.module.css";
 import { FormButton } from "./FormButton";
 import type { AssertionFormProps } from "./useAssertionForm";
@@ -51,7 +52,7 @@ export function Form(props: AssertionFormProps) {
 
   function getInputBackgroundColor(...errors: MaybeErrors) {
     const normalBackgroundColor = "var(--white)";
-    const errorBackgroundColor = "var(--red-500-opacity-5)";
+    const errorBackgroundColor = makeTransparentColor("var(--error-red)", 0.05);
 
     return getMaybeErrorColor(
       {
