@@ -1,11 +1,14 @@
 "use client";
 
+import { oov3Abi } from "@/abis";
 import linkStyles from "@/components/RedLink.module.css";
 import { makeBlockExplorerLink } from "@/helpers";
 import Success from "@/icons/success.svg";
 import Warning from "@/icons/warning.svg";
 import * as Toast from "@radix-ui/react-toast";
 import ReactMarkdown from "react-markdown";
+import type { Hash, Log } from "viem";
+import { decodeEventLog } from "viem";
 import { useWaitForTransaction } from "wagmi";
 import { LoadingSpinner } from "../LoadingSpinner";
 import { RedLink } from "../RedLink";
@@ -20,12 +23,12 @@ export function Notification(props: ApproveProps): JSX.Element;
 export function Notification(props: AssertProps): JSX.Element;
 export function Notification(props: ApproveProps | AssertProps) {
   const { hash, chainId } = props;
-  const { status } = useWaitForTransaction({ hash });
+  const { status, data } = useWaitForTransaction({ hash });
   const explorerLink = makeBlockExplorerLink(hash, chainId, "tx");
 
   if (status === "idle") return null;
 
-  const duration = status === "loading" ? Infinity : 5000;
+  const duration = status === "loading" ? Infinity : 10_000;
 
   const indicator = getIndicator();
 
@@ -47,7 +50,12 @@ export function Notification(props: ApproveProps | AssertProps) {
       {indicator}
       <div>
         {props.type === "assert" && (
-          <AssertNotification {...props} status={status} />
+          <AssertNotification
+            {...props}
+            status={status}
+            transactionHash={data?.transactionHash}
+            logs={data?.logs}
+          />
         )}
         {props.type === "approve" && (
           <ApproveNotification {...props} status={status} />
@@ -90,8 +98,60 @@ function ApproveNotification({
 function AssertNotification({
   claim,
   status,
-}: AssertProps & { status: NotificationStatus }) {
+  transactionHash,
+  chainId,
+  logs,
+}: AssertProps & {
+  status: NotificationStatus;
+  transactionHash: Hash | undefined;
+  logs: Log[] | undefined;
+}) {
   const title = getTitle();
+  const decodedLogs = decodeLogs();
+  const assertionMadeEventLogIndex = getAssertionMadeEventLog(decodedLogs);
+  const oOUiLink = makeOOUiLink();
+
+  function makeOOUiLink() {
+    if (!transactionHash || !assertionMadeEventLogIndex) return undefined;
+    const base =
+      chainId === 5
+        ? "https://testnet.oracle.uma.xyz/"
+        : "https://oracle.uma.xyz/";
+
+    return `${base}?transactionHash=${transactionHash}&eventIndex=${assertionMadeEventLogIndex}`;
+  }
+
+  function getAssertionMadeEventLog(
+    decodedLogs: ReturnType<typeof decodeLogs>
+  ) {
+    if (!decodedLogs) return undefined;
+
+    const log = decodedLogs.find(
+      ({ eventName }) => eventName === "AssertionMade"
+    );
+    return log?.logIndex;
+  }
+
+  function safeDecodeLog(log: Log) {
+    try {
+      return {
+        logIndex: log.logIndex,
+        ...decodeEventLog({
+          abi: oov3Abi,
+          data: log.data,
+          topics: log.topics,
+        }),
+      };
+    } catch {
+      return undefined;
+    }
+  }
+
+  function decodeLogs() {
+    if (!logs) return undefined;
+
+    return logs.map((log) => safeDecodeLog(log)).filter(Boolean);
+  }
   function getTitle() {
     switch (status) {
       case "loading":
@@ -106,15 +166,23 @@ function AssertNotification({
     <>
       <Toast.Title>{title}</Toast.Title>
       <Toast.Description className={styles.assertDescription}>
-        <ReactMarkdown
-          components={{
-            a: (props) => (
-              <a {...props} target="_blank" className={linkStyles.link} />
-            ),
-          }}
-        >
-          {claim}
-        </ReactMarkdown>
+        {!!oOUiLink ? (
+          <RedLink href={oOUiLink} target="_blank">
+            View on Oracle UI
+          </RedLink>
+        ) : (
+          <div className={styles.claimWrapper}>
+            <ReactMarkdown
+              components={{
+                a: (props) => (
+                  <a {...props} target="_blank" className={linkStyles.link} />
+                ),
+              }}
+            >
+              {claim}
+            </ReactMarkdown>
+          </div>
+        )}
       </Toast.Description>
     </>
   );
