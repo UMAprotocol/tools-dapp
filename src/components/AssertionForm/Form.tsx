@@ -18,10 +18,11 @@ export function Form(props: AssertionFormProps) {
     bond,
     bondInputError,
     bondIsTooLowError,
+    insufficientFundsError,
     errors,
     setClaim,
     setBond,
-    setBondError,
+    setBondInputError,
     setCurrency,
     setChallengePeriod,
   } = props;
@@ -138,11 +139,21 @@ export function Form(props: AssertionFormProps) {
           htmlFor="bond"
           className={styles.label}
           style={{
-            color: getInputTextColor(bondInputError, bondIsTooLowError),
+            color: getInputTextColor(
+              bondInputError,
+              bondIsTooLowError,
+              insufficientFundsError
+            ),
           }}
         >
           Bond Amount:{" "}
-          <InfoIcon style={getInfoIconStyle(bondInputError, bondIsTooLowError)}>
+          <InfoIcon
+            style={getInfoIconStyle(
+              bondInputError,
+              bondIsTooLowError,
+              insufficientFundsError
+            )}
+          >
             The amount of currency you are willing to stake on this assertion.
           </InfoIcon>
         </label>
@@ -154,12 +165,19 @@ export function Form(props: AssertionFormProps) {
           required={true}
           requiredErrorMessage="You must have a bond to make an assertion"
           onInput={setBond}
-          addErrorMessage={setBondError}
+          addErrorMessage={setBondInputError}
           placeholder=""
-          removeErrorMessage={() => setBondError("")}
-          style={getInputStyle(bondInputError, bondIsTooLowError)}
+          removeErrorMessage={() => setBondInputError("")}
+          style={getInputStyle(
+            bondInputError,
+            bondIsTooLowError,
+            insufficientFundsError
+          )}
         />
         {!!bondInputError && <p className={styles.error}>{bondInputError}</p>}
+        {!!insufficientFundsError && (
+          <p className={styles.error}>{insufficientFundsError}</p>
+        )}
         {!!bondIsTooLowError && (
           <p className={styles.error}>{bondIsTooLowError}</p>
         )}

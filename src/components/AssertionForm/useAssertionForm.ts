@@ -4,7 +4,8 @@ import {
   currenciesByChain,
   oov3AddressesByChainId,
 } from "@/constants";
-import { useMinimumBond } from "@/hooks";
+import { truncateDecimalString } from "@/helpers";
+import { useBalanceAndAllowance, useMinimumBond } from "@/hooks";
 import type { ChainId, DropdownItem } from "@/types";
 import { useEffect, useState } from "react";
 import { useUpdateEffect } from "usehooks-ts";
@@ -53,7 +54,17 @@ export function useAssertionForm() {
   const decimals = currencyDetails?.decimals ?? 18;
   const currencySymbol = currencyDetails?.symbol ?? "";
   const bondBigInt = BigInt(parseUnits(bond as `${number}`, decimals));
+  const { balance, allowance } = useBalanceAndAllowance({
+    userAddress,
+    currencyAddress,
+    oracleAddress,
+    chainId,
+  });
+
+  const hasApproved = !!allowance && allowance >= bondBigInt;
+  const insufficientFunds = !!balance && balance.value <= bondBigInt;
   const bondFormatted = formatUnits(bondBigInt, decimals);
+  const balanceFormatted = truncateDecimalString(balance?.formatted ?? "0");
   const challengePeriodBigInt = BigInt(challengePeriod.value);
   const chainName = chainsById[chainId];
   const bondIsTooLowError =
@@ -61,9 +72,15 @@ export function useAssertionForm() {
       ? `Bond must be at least ${formatUnits(minimumBond, decimals)} 
   ${currencySymbol} on ${chainName}`
       : undefined;
-  const errors = [claimError, bondInputError, bondIsTooLowError].filter(
-    Boolean
-  );
+  const insufficientFundsError = insufficientFunds
+    ? `Insufficient funds. You have ${balanceFormatted} ${currencySymbol}`
+    : undefined;
+  const errors = [
+    claimError,
+    bondInputError,
+    bondIsTooLowError,
+    insufficientFundsError,
+  ].filter(Boolean);
 
   useEffect(() => {
     if (minimumBond !== undefined && bondBigInt < minimumBond) {
@@ -132,10 +149,13 @@ export function useAssertionForm() {
     currencyAddress,
     oracleAddress,
     errors,
+    hasApproved,
+    insufficientFunds,
+    insufficientFundsError,
     setClaim,
     setCurrency,
     setBond,
-    setBondError: setBondInputError,
+    setBondInputError,
     setChallengePeriod,
   };
 }

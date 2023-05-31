@@ -7,9 +7,9 @@ import {
   usePrepareContractWrite,
   useWaitForTransaction,
 } from "wagmi";
-import type { ActionButtonProps } from "./ActionButton";
+import type { ActionButtonDelegatedProps } from "./ActionButton";
 
-export function AssertButton(props: ActionButtonProps) {
+export function AssertButton(props: ActionButtonDelegatedProps) {
   const { disabled, submitAssertion, tooltipContent } = useAssertButton(props);
   return (
     <TooltipButton
@@ -22,23 +22,18 @@ export function AssertButton(props: ActionButtonProps) {
   );
 }
 
-function useAssertButton(props: ActionButtonProps) {
+function useAssertButton(props: ActionButtonDelegatedProps) {
   const {
     claim,
     chainId,
     bondBigInt,
     challengePeriodBigInt,
-    insufficientFunds,
-    balance,
-    bondFormatted,
     userAddress,
     currencyAddress,
-    currencySymbol,
     oracleAddress,
   } = props;
   const { addNotification } = useNotifications();
   const hasClaim = claim.length > 0;
-  const balanceFormatted = balance?.formatted ?? "0";
 
   const { config } = usePrepareContractWrite({
     address: oracleAddress,
@@ -75,7 +70,7 @@ function useAssertButton(props: ActionButtonProps) {
   }, [data?.hash, addNotification, chainId, claim]);
 
   const tooltipContent = getTooltipContent();
-  const disabled = !hasClaim || insufficientFunds || isLoading;
+  const disabled = !hasClaim || isLoading;
 
   function getTooltipContent() {
     if (isLoading) {
@@ -83,9 +78,6 @@ function useAssertButton(props: ActionButtonProps) {
     }
     if (!hasClaim) {
       return "Please enter a claim to submit";
-    }
-    if (insufficientFunds) {
-      return `Insufficient funds. You have ${balanceFormatted} ${currencySymbol} but need ${bondFormatted} ${currencySymbol}.`;
     }
     return undefined;
   }
