@@ -78,7 +78,7 @@ function useCurrency({ chainId }: { chainId: ChainId }) {
     }
   }, [currencyDropdownOptions, currency]);
 
-  // only weth is supported on goerli, so switch to it if the user is on goerli
+  // if we change to a new chain and the selected currency doesn't exist on that chain, select the first one that does
   useEffect(() => {
     if (currency && !currencyDropdownOptions.includes(currency)) {
       setCurrency(currencyDropdownOptions[0]);
