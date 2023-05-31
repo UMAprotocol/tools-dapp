@@ -6,9 +6,9 @@ import {
   usePrepareContractWrite,
   useWaitForTransaction,
 } from "wagmi";
-import type { ActionButtonDelegatedProps } from "./ActionButton";
+import type { AssertionFormProps } from "../useAssertionForm";
 
-export function ApproveButton(props: ActionButtonDelegatedProps) {
+export function ApproveButton(props: AssertionFormProps) {
   const { approve, disabled, tooltipContent } = useApproveButton(props);
   return (
     <TooltipButton
@@ -21,7 +21,7 @@ export function ApproveButton(props: ActionButtonDelegatedProps) {
   );
 }
 
-function useApproveButton(props: ActionButtonDelegatedProps) {
+function useApproveButton(props: AssertionFormProps) {
   const {
     currencyAddress,
     currencySymbol,
