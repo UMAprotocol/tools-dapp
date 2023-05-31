@@ -1,15 +1,16 @@
 import { oov3Abi } from "@/abis";
 import { TooltipButton, useNotifications } from "@/components";
 import { useEffect } from "react";
+import type { Address } from "viem";
 import { stringToHex, zeroAddress } from "viem";
 import {
   useContractWrite,
   usePrepareContractWrite,
   useWaitForTransaction,
 } from "wagmi";
-import type { ActionButtonProps } from "./ActionButton";
+import type { AssertionFormProps } from "../useAssertionForm";
 
-export function AssertButton(props: ActionButtonProps) {
+export function AssertButton(props: AssertionFormProps) {
   const { disabled, submitAssertion, tooltipContent } = useAssertButton(props);
   return (
     <TooltipButton
@@ -22,35 +23,31 @@ export function AssertButton(props: ActionButtonProps) {
   );
 }
 
-function useAssertButton(props: ActionButtonProps) {
+function useAssertButton(props: AssertionFormProps) {
   const {
     claim,
     chainId,
     bondBigInt,
     challengePeriodBigInt,
-    insufficientFunds,
-    balance,
-    bondFormatted,
     userAddress,
     currencyAddress,
-    currencySymbol,
     oracleAddress,
   } = props;
   const { addNotification } = useNotifications();
   const hasClaim = claim.length > 0;
-  const balanceFormatted = balance?.formatted ?? "0";
 
   const { config } = usePrepareContractWrite({
     address: oracleAddress,
     abi: oov3Abi,
     functionName: "assertTruth",
+    enabled: !!userAddress && !!currencyAddress,
     args: [
       stringToHex(claim),
-      userAddress,
+      userAddress as Address,
       zeroAddress,
       zeroAddress,
       challengePeriodBigInt,
-      currencyAddress,
+      currencyAddress as Address,
       bondBigInt,
       stringToHex("ASSERT_TRUTH", { size: 32 }),
       stringToHex("0x0", { size: 32 }),
@@ -75,7 +72,7 @@ function useAssertButton(props: ActionButtonProps) {
   }, [data?.hash, addNotification, chainId, claim]);
 
   const tooltipContent = getTooltipContent();
-  const disabled = !hasClaim || insufficientFunds || isLoading;
+  const disabled = !hasClaim || isLoading;
 
   function getTooltipContent() {
     if (isLoading) {
@@ -83,9 +80,6 @@ function useAssertButton(props: ActionButtonProps) {
     }
     if (!hasClaim) {
       return "Please enter a claim to submit";
-    }
-    if (insufficientFunds) {
-      return `Insufficient funds. You have ${balanceFormatted} ${currencySymbol} but need ${bondFormatted} ${currencySymbol}.`;
     }
     return undefined;
   }
