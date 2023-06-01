@@ -1,5 +1,5 @@
 import { Card } from "@/components";
-import Assertion from "@/icons/assertion.svg";
+import Assertion from "@/icons/assertion-tool.svg";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const meta: Meta = {
@@ -11,16 +11,11 @@ export default meta;
 export const Default: StoryObj<typeof Card> = {
   args: {
     title: "Assertion Tool",
-    children: (
-      <>
-        <h3>What does it do?</h3>
-        <ul>
-          <li>Create assertions</li>
-          <li>Preview what your assertions will look like</li>
-          <li>See the minimum bond for a given currency</li>
-        </ul>
-      </>
-    ),
+    whatItDoes: [
+      "Create assertions",
+      "Preview what your assertions will look like",
+      "See the minimum bond for a given currency",
+    ],
     href: "/assertion-tool",
     icon: Assertion,
   },
