@@ -1,4 +1,4 @@
-import { Banner, RedLink } from "@/components";
+import { Banner, Cards, RedLink } from "@/components";
 export default function Dashboard() {
   return (
     <main>
@@ -15,6 +15,7 @@ export default function Dashboard() {
           </>
         }
       />
+      <Cards />
     </main>
   );
 }

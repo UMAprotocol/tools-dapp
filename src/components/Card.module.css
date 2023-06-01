@@ -12,6 +12,8 @@
   height: 60px;
   padding-inline: 24px;
   background: var(--blue-grey-700);
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
 }
 
 .titleText {

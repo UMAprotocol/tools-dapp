@@ -1,4 +1,5 @@
-import Box from "@/icons/box.svg";
+import Dashboard from "@/icons/box.svg";
+import AssertionTool from "@/icons/assertion-tool.svg";
 import styles from "./Banner.module.css";
 
 interface Props {
@@ -8,15 +9,15 @@ interface Props {
 }
 export function Banner({ page, title, subtitle }: Props) {
   const pageToIcon = {
-    dashboard: Box,
-    "assertion-tool": Box,
+    dashboard: Dashboard,
+    "assertion-tool": AssertionTool,
   };
   const Icon = pageToIcon[page];
 
   return (
     <div className={styles.wrapper}>
       <h1 className={styles.title}>
-        <Icon />
+        <Icon className={styles.icon} />
         {title}
       </h1>
       <h2 className={styles.subtitle}>{subtitle}</h2>

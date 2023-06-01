@@ -19,3 +19,8 @@
   font: var(--body-md);
   max-width: 800px;
 }
+
+.icon {
+  width: 54px;
+  height: 54px;
+}
