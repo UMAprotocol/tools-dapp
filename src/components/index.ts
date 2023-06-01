@@ -1,6 +1,7 @@
 export { AssertionForm } from "./AssertionForm/AssertionForm";
 export { Banner } from "./Banner";
 export { Button } from "./Button";
+export { Card } from "./Card";
 export { ConnectButton } from "./ConnectButton";
 export { DecimalInput } from "./DecimalInput";
 export { ErrorButton } from "./ErrorButton";
