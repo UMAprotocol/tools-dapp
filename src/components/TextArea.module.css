@@ -3,3 +3,7 @@
   resize: none;
   min-height: 112px;
 }
+
+.textarea::placeholder {
+  color: var(--placeholder-color, unset);
+}

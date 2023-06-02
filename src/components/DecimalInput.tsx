@@ -105,7 +105,7 @@ export function DecimalInput({
       minLength={1}
       maxLength={79}
       spellCheck="false"
-      className={styles.input}
+      className={`${styles.input} ${delegated.className ?? ""}`}
       id={id}
       required={required}
     />

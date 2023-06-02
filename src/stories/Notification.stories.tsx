@@ -5,7 +5,7 @@ import { createMock } from "storybook-addon-module-mock";
 import * as wagmi from "wagmi";
 import { MockWalletConfig } from "./MockWalletConfig";
 
-const dummyData = {
+const mockData = {
   blockHash:
     "0x05f0a73a2ecfb8d79d5328916cc1fadf0b9b7c91e430286aa0fe0b55eb92592a",
   blockNumber: "9095908",
@@ -105,7 +105,7 @@ const LoadingTemplate: Story = {
 
 const SuccessTemplate: Story = {
   ...Template,
-  parameters: makeWaitForTransactionMock("success", dummyData),
+  parameters: makeWaitForTransactionMock("success", mockData),
 };
 
 const ErrorTemplate: Story = {

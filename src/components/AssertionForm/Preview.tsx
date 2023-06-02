@@ -33,7 +33,7 @@ export function Preview({
         </h2>
         <div className={styles.content}>
           <p>
-            {bond} {currencySymbol}
+            {bond === "" ? "0" : bond} {currencySymbol}
           </p>
         </div>
         <h2 className={styles.subtitle}>

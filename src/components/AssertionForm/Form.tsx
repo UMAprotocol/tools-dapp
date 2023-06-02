@@ -17,6 +17,7 @@ export function Form(props: AssertionFormProps) {
     currencyAddress,
     decimals,
     bond,
+    minimumBond,
     bondInputError,
     bondIsTooLowError,
     insufficientFundsError,
@@ -35,7 +36,24 @@ export function Form(props: AssertionFormProps) {
       color: getInputTextColor(...errors),
       backgroundColor: getInputBackgroundColor(...errors),
       borderColor: getInputBorderColor(...errors),
+      "--placeholder-color": getPlaceholderColor(...errors),
     };
+  }
+
+  function getPlaceholderColor(...errors: MaybeErrors) {
+    const normalPlaceholderColor = makeTransparentColor(
+      "var(--dark-text)",
+      0.5
+    );
+    const errorPlaceholderColor = makeTransparentColor("var(--error-red)", 0.5);
+
+    return getMaybeErrorColor(
+      {
+        normalColor: normalPlaceholderColor,
+        errorColor: errorPlaceholderColor,
+      },
+      ...errors
+    );
   }
 
   function getInputTextColor(...errors: MaybeErrors) {
@@ -118,6 +136,7 @@ export function Form(props: AssertionFormProps) {
           value={claim}
           onChange={(e) => setClaim(e.target.value)}
           required
+          placeholder="I assert that..."
           style={getInputStyle(claimError)}
         />
         {claimError !== "" && <p className={styles.error}>{claimError}</p>}
@@ -167,7 +186,7 @@ export function Form(props: AssertionFormProps) {
           requiredErrorMessage="You must have a bond to make an assertion"
           onInput={setBond}
           addErrorMessage={setBondInputError}
-          placeholder=""
+          placeholder={`Bond (minimum ${minimumBond ?? 0})`}
           removeErrorMessage={() => setBondInputError("")}
           style={getInputStyle(
             bondInputError,

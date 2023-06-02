@@ -23,7 +23,7 @@ export function AssertButton(props: AssertionFormProps) {
   );
 }
 
-function useAssertButton(props: AssertionFormProps) {
+export function useAssertButton(props: AssertionFormProps) {
   const {
     claim,
     chainId,
@@ -34,7 +34,6 @@ function useAssertButton(props: AssertionFormProps) {
     oracleAddress,
   } = props;
   const { addNotification } = useNotifications();
-  const hasClaim = claim.length > 0;
 
   const { config } = usePrepareContractWrite({
     address: oracleAddress,
@@ -71,23 +70,10 @@ function useAssertButton(props: AssertionFormProps) {
     }
   }, [data?.hash, addNotification, chainId, claim]);
 
-  const tooltipContent = getTooltipContent();
-  const disabled = !hasClaim || isLoading;
-
-  function getTooltipContent() {
-    if (isLoading) {
-      return "Submitting assertion...";
-    }
-    if (!hasClaim) {
-      return "Please enter a claim to submit";
-    }
-    return undefined;
-  }
-
   return {
     ...props,
-    disabled,
-    tooltipContent,
+    disabled: isLoading,
+    tooltipContent: isLoading ? "Submitting assertion..." : undefined,
     submitAssertion: () => write?.(),
   };
 }

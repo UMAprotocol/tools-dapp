@@ -107,7 +107,7 @@ function useCurrency({ chainId }: { chainId: ChainId }) {
 }
 
 function useClaim() {
-  const [claim, setClaim] = useState("I assert that...");
+  const [claim, setClaim] = useState("");
   const [claimError, setClaimError] = useState("");
 
   useUpdateEffect(() => {
@@ -256,15 +256,7 @@ export function useAssertionForm() {
     currencySymbol,
     decimals,
   } = useCurrency({ chainId });
-  console.log({
-    currencies,
-    currency,
-    setCurrency,
-    currencyAddress,
-    currencyDetails,
-    currencySymbol,
-    decimals,
-  });
+
   const { userAddress, isConnected, balance, allowance, balanceFormatted } =
     useWalletState({
       currencyAddress,

@@ -5,3 +5,7 @@
 .input:disabled {
   cursor: not-allowed;
 }
+
+.input::placeholder {
+  color: var(--placeholder-color, unset);
+}
