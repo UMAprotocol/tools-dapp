@@ -7,8 +7,8 @@ type Args = {
 };
 
 const args = parse<Args>({
-  component: String,
-  importPath: { type: String, optional: true },
+  component: { type: String, alias: "c" },
+  importPath: { type: String, optional: true, alias: "i" },
 });
 
 const { component, importPath } = args;
