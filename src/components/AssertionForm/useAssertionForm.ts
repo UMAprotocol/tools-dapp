@@ -256,6 +256,15 @@ export function useAssertionForm() {
     currencySymbol,
     decimals,
   } = useCurrency({ chainId });
+  console.log({
+    currencies,
+    currency,
+    setCurrency,
+    currencyAddress,
+    currencyDetails,
+    currencySymbol,
+    decimals,
+  });
   const { userAddress, isConnected, balance, allowance, balanceFormatted } =
     useWalletState({
       currencyAddress,
