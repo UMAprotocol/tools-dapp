@@ -175,7 +175,9 @@ function useBond({
   chainName,
   oracleAddress,
   decimals,
+  isConnected,
 }: {
+  isConnected: boolean;
   balance: bigint;
   balanceFormatted: string;
   allowance: bigint;
@@ -192,7 +194,7 @@ function useBond({
   const bondBigInt = BigInt(parseUnits(bond as `${number}`, decimals));
   const bondFormatted = formatUnits(bondBigInt, decimals);
   const hasApproved = !!allowance && allowance >= bondBigInt;
-  const insufficientFunds = balance <= bondBigInt;
+  const insufficientFunds = isConnected && balance <= bondBigInt;
   const bondIsTooLowError =
     bondIsTooLow && minimumBond !== undefined
       ? `Bond must be at least ${formatUnits(minimumBond, decimals)} 
@@ -274,6 +276,7 @@ export function useAssertionForm() {
     bondIsTooLowError,
     insufficientFundsError,
   } = useBond({
+    isConnected,
     balance,
     balanceFormatted,
     allowance,

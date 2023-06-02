@@ -1,5 +1,6 @@
 "use client";
 
+import { makeTransparentColor } from "@/helpers";
 import type { ComponentPropsWithoutRef } from "react";
 import { Oval } from "react-loader-spinner";
 
@@ -17,20 +18,27 @@ export function LoadingSpinner({
   secondaryColor,
   ...delegated
 }: Props) {
+  const redPrimaryColor = "var(--red-500)";
+  const blackPrimaryColor = "var(--blue-grey-700)";
+  const whitePrimaryColor = "var(--white)";
+  const redSecondaryColor = makeTransparentColor(redPrimaryColor, 0.5);
+  const blackSecondaryColor = makeTransparentColor(blackPrimaryColor, 0.5);
+  const whiteSecondaryColor = makeTransparentColor(whitePrimaryColor, 0.5);
+
   const _color = color
     ? color
     : variant === "white"
-    ? "var(--white)"
+    ? whitePrimaryColor
     : variant === "red"
-    ? "var(--red-500)"
-    : "var(--blue-grey-700)";
+    ? redPrimaryColor
+    : blackPrimaryColor;
   const _secondaryColor = secondaryColor
     ? secondaryColor
     : variant === "white"
-    ? "var(--white-opacity-50)"
+    ? whiteSecondaryColor
     : variant === "red"
-    ? "var(--red-500-opacity-50)"
-    : "var(--blue-grey-700-opacity-50)";
+    ? redSecondaryColor
+    : blackSecondaryColor;
   return (
     <Oval
       width={width}
