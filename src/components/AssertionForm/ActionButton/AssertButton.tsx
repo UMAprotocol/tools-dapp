@@ -8,7 +8,7 @@ import {
   usePrepareContractWrite,
   useWaitForTransaction,
 } from "wagmi";
-import type { AssertionFormProps } from "../useAssertionForm";
+import type { AssertionFormProps } from "../shared.types";
 
 export function AssertButton(props: AssertionFormProps) {
   const { disabled, submitAssertion, tooltipContent } = useAssertButton(props);
@@ -23,7 +23,7 @@ export function AssertButton(props: AssertionFormProps) {
   );
 }
 
-export function useAssertButton(props: AssertionFormProps) {
+function useAssertButton(props: AssertionFormProps) {
   const {
     claim,
     chainId,

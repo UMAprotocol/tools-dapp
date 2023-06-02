@@ -6,7 +6,7 @@ import {
   usePrepareContractWrite,
   useWaitForTransaction,
 } from "wagmi";
-import type { AssertionFormProps } from "../useAssertionForm";
+import type { AssertionFormProps } from "../shared.types";
 
 export function ApproveButton(props: AssertionFormProps) {
   const { approve, disabled, tooltipContent } = useApproveButton(props);

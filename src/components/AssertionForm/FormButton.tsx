@@ -1,6 +1,6 @@
 import { ConnectButton, ErrorButton, LoadingButton } from "@/components";
 import { ActionButton } from "./ActionButton/ActionButton";
-import type { AssertionFormProps } from "./useAssertionForm";
+import type { AssertionFormProps } from "./shared.types";
 
 export function FormButton(props: AssertionFormProps) {
   const { isConnected, currencyAddress, errors } = props;

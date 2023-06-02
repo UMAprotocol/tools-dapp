@@ -1,4 +1,4 @@
-import type { AssertionFormProps } from "../useAssertionForm";
+import type { AssertionFormProps } from "../shared.types";
 import styles from "./ActionButton.module.css";
 import { ApproveButton } from "./ApproveButton";
 import { AssertButton } from "./AssertButton";

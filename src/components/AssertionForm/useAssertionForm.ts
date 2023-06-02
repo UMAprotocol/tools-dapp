@@ -13,8 +13,6 @@ import type { Address } from "viem";
 import { formatUnits, parseUnits } from "viem";
 import { useAccount, useNetwork, useToken } from "wagmi";
 
-export type AssertionFormProps = ReturnType<typeof useAssertionForm>;
-
 function useChain() {
   const { chain } = useNetwork();
   const chainId = (chain?.id ?? 1) as ChainId;
