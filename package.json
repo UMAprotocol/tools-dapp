@@ -10,7 +10,8 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "chromatic": "chromatic --project-token=chpt_edd87fb40472091",
-    "make-story": "ts-node scripts/makeStory.ts"
+    "make-story": "ts-node scripts/makeStory.ts",
+    "make-component": "ts-node scripts/makeComponent.ts"
   },
   "dependencies": {
     "@radix-ui/react-dropdown-menu": "^2.0.4",
