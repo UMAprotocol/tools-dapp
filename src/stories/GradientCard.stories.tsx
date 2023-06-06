@@ -1,6 +1,5 @@
 import { GradientCard } from "@/components/GradientCard";
 import type { Meta, StoryObj } from "@storybook/react";
-import { createMock } from "storybook-addon-module-mock";
 
 const meta: Meta = {
   component: GradientCard,
@@ -11,21 +10,24 @@ export default meta;
 type Story = StoryObj<typeof GradientCard>;
 
 const Template: Story = {
-  parameters: makeMathRandomMock(42),
+  // parameters: makeMathRandomMock(0.4),
 };
 
 export const Default: Story = {
   ...Template,
 };
 
-function makeMathRandomMock(number: number) {
-  return {
-    moduleMock: {
-      mock: () => {
-        const mock = createMock(Math, "random");
-        mock.mockReturnValue(number);
-        return [mock];
-      },
-    },
-  };
-}
+// function makeMathRandomMock(number: number) {
+//   return {
+//     moduleMock: {
+//       mock: () => {
+//         const mock = createMock(Math, "random");
+//         mock
+//           .mockReturnValueOnce(number)
+//           .mockReturnValueOnce(0.3)
+//           .mockReturnValueOnce(0.2);
+//         return [mock];
+//       },
+//     },
+//   };
+// }
