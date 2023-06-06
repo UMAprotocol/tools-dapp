@@ -18,3 +18,4 @@ export { TextArea } from "./TextArea";
 export { Tooltip } from "./Tooltip";
 export { TooltipButton } from "./TooltipButton";
 export { WalletConfig } from "./WalletConfig";
+export * from "./GradientCard";

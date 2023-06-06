@@ -1,0 +1,41 @@
+.wrapper {
+  position: relative;
+  width: 440px;
+  height: 480px;
+  background: #fef2ef;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 24px;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.wrapper:hover .topCircle,
+.wrapper:hover .bottomCircle {
+  opacity: 50%;
+}
+
+.circle {
+  position: absolute;
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+  transition: opacity 0.3s;
+  opacity: 0.25;
+  filter: blur(75px);
+
+}
+
+.topCircle {
+  composes: circle;
+  top: -30%;
+  right: -30%;
+  width: 80%;
+  background: #f26c74;
+}
+
+.bottomCircle {
+  composes: circle;
+  bottom: -30%;
+  left: -30%;
+  width: 90%;
+  background: #bd81f6;
+}
